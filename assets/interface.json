@@ -1,0 +1,67 @@
+{
+    "controller": [
+        {
+            "name": "ADB 默认方式",
+            "type": "Adb",
+            "screencap": 16580608
+        }
+    ],
+    "resource": [
+        {
+            "name": "官服",
+            "path": [
+                "{PROJECT_DIR}/resource/base"
+            ]
+        },
+        {
+            "name": "B 服",
+            "path": [
+                "{PROJECT_DIR}/resource/base",
+                "{PROJECT_DIR}/resource/bilibili"
+            ]
+        }
+    ],
+    "task": [
+        {
+            "name": "普通任务",
+            "entry": "MyTask1"
+        },
+        {
+            "name": "选项任务",
+            "entry": "MyTask2",
+            "option": [
+                "任务选项1"
+            ]
+        },
+        {
+            "name": "参数任务",
+            "entry": "MyTask3",
+            "option": [
+                "任务选项1"
+            ],
+            "param": {}
+        }
+    ],
+    "option": {
+        "任务选项1": {
+            "cases": [
+                {
+                    "name": "文本1",
+                    "param": {
+                        "OcrTask": {
+                            "text": "文本1"
+                        }
+                    }
+                },
+                {
+                    "name": "文本2",
+                    "param": {
+                        "OcrTask": {
+                            "text": "文本2"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

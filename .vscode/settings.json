@@ -1,0 +1,20 @@
+{
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "/assets/resource/**/*.json",
+                "/install/resource/**/*.json"
+            ],
+            "url": "/deps/tools/pipeline.schema.json"
+        }
+    ],
+    "[json]": {
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.indentSize": "tabSize"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    }
+}
