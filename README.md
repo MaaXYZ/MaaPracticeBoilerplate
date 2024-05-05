@@ -35,23 +35,23 @@ MaaFramework 实践模板。
 
 5. 完成开发工作后，上传您的代码并发布版本（本模板已配置自动打包及发版 CI）。
 
-```bash
-# 配置 git 信息（仅第一次需要，后续不用再配置）
-git config user.name "您的 GitHub 昵称"
-git config user.email "您的 GitHub 邮箱"
-
-# 提交修改
-git add .
-git commit -m "XX 新功能"
-git push origin HEAD -u
-```
+    ```bash
+    # 配置 git 信息（仅第一次需要，后续不用再配置）
+    git config user.name "您的 GitHub 昵称"
+    git config user.email "您的 GitHub 邮箱"
+    
+    # 提交修改
+    git add .
+    git commit -m "XX 新功能"
+    git push origin HEAD -u
+    ```
 
 6. 发版您的版本
 
-需要先修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions`
-
-```bash
-# CI 检测到 tag 会自动进行发版
-git tag v1.0.0
-git push origin v1.0.0
-```
+    需要先修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions`
+    
+    ```bash
+    # CI 检测到 tag 会自动进行发版
+    git tag v1.0.0
+    git push origin v1.0.0
+    ```
