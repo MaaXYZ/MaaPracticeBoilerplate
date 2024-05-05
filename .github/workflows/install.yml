@@ -149,6 +149,8 @@ jobs:
     if: ${{ needs.meta.outputs.is_release == 'true' }}
     needs: [meta, windows, ubuntu, macos]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/download-artifact@v3
         with:
