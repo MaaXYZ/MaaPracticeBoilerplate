@@ -44,8 +44,14 @@ git config user.email "您的 GitHub 邮箱"
 git add .
 git commit -m "XX 新功能"
 git push origin HEAD -u
+```
 
-# 发布版本（CI 检测到 tag 会自动进行发版）
+6. 发版您的版本
+
+需要先修改仓库设置 `Settings` - `Actions` - `General` - `Read repository contents and packages permissions`
+
+```bash
+# CI 检测到 tag 会自动进行发版
 git tag v1.0.0
 git push origin v1.0.0
 ```
