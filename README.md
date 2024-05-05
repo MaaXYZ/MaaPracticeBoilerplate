@@ -33,7 +33,7 @@ MaaFramework 实践模板。
 5. 完成开发工作后，上传您的代码并发布版本（本模板已配置自动打包及发版 CI）。
 
 ```bash
-# 配置 git 信息
+# 配置 git 信息（仅第一次需要，后续不用再配置）
 git config user.name "您的 GitHub 昵称"
 git config user.email "您的 GitHub 邮箱"
 
