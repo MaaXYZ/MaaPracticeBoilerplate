@@ -31,7 +31,7 @@ MaaFramework 实践模板。
       python ./install.py
       ```
       
-        2. 运行 install/MaaPiCli.exe
+        2. 运行 `install/MaaPiCli.exe`
 
 5. 完成开发工作后，上传您的代码并发布版本（本模板已配置自动打包及发版 CI）。
 
