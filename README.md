@@ -1,19 +1,40 @@
 # MaaPracticeBoilerplate
 
-Please first clone this repository and submodules completely!
+MaaFramework 实践模板项目
+
+您可以使用右上角 `Use this template` - `Create a new repository` 来基于本模板创建您自己的项目
+
+## 如何开发
+
+1. 完整克隆本项目及子项目（地址可修改为您基于本模板创建的新项目地址）
+
+  ```bash
+  git clone --recursive https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
+  ```
+
+2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中
+
+3. 配置工作
+
+  ```bash
+  python ./configure.py
+  ```
+
+4. 按需求修改 `assets` 中的资源文件，请参考 MaaFramework 相关文档。期间可使用 [MaaDebugger](https://github.com/MaaXYZ/MaaDebugger.git) 进行调试
+5. 完成开发工作，上传您的代码并发布版本（本模板已配置自动打包及发版 CI）
 
 ```bash
-git clone --recursive https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
+# 配置 git 信息
+git config user.name "您的 GitHub 昵称"
+git config user.email "您的 GitHub 邮箱"
+
+# 提交修改
+git add .
+git commit -m "XX 新功能"
+git push origin HEAD -u
+
+# 发布版本（CI 检测到 tag 会自动进行发版）
+git tag v1.0.0
+git push origin v1.0.0
 ```
 
-## Configuration
-
-```bash
-python ./configure.py
-```
-
-## Installation
-
-```bash
-python ./install.py
-```
