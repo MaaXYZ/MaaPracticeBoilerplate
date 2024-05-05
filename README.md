@@ -25,10 +25,13 @@ MaaFramework 实践模板。
     - 可使用 [MaaDebugger](https://github.com/MaaXYZ/MaaDebugger.git) 进行调试；
     - 也可以在本地安装后测试：
 
+        1. 执行安装脚本
+           
       ```bash
       python ./install.py
-      ./install/MaaPiCli
       ```
+      
+        2. 运行 install/MaaPiCli.exe
 
 5. 完成开发工作后，上传您的代码并发布版本（本模板已配置自动打包及发版 CI）。
 
