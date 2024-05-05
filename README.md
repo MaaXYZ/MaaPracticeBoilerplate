@@ -1,27 +1,36 @@
 # MaaPracticeBoilerplate
 
-MaaFramework 实践模板项目
-
-您可以使用右上角 `Use this template` - `Create a new repository` 来基于本模板创建您自己的项目
+MaaFramework 实践模板。
 
 ## 如何开发
 
-1. 完整克隆本项目及子项目（地址可修改为您基于本模板创建的新项目地址）
+0. 使用右上角 `Use this template` - `Create a new repository` 来基于本模板创建您自己的项目。
 
-  ```bash
-  git clone --recursive https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
-  ```
+1. 完整克隆本项目及子项目（地址请修改为您基于本模板创建的新项目地址）。
 
-2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中
+    ```bash
+    git clone --recursive https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
+    ```
 
-3. 配置工作
+2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中。
 
-  ```bash
-  python ./configure.py
-  ```
+3. 配置资源文件。
 
-4. 按需求修改 `assets` 中的资源文件，请参考 MaaFramework 相关文档。期间可使用 [MaaDebugger](https://github.com/MaaXYZ/MaaDebugger.git) 进行调试
-5. 完成开发工作，上传您的代码并发布版本（本模板已配置自动打包及发版 CI）
+    ```bash
+    python ./configure.py
+    ```
+
+4. 按需求修改 `assets` 中的资源文件，请参考 MaaFramework 相关文档。
+
+    - 可使用 [MaaDebugger](https://github.com/MaaXYZ/MaaDebugger.git) 进行调试；
+    - 也可以在本地安装后测试：
+
+      ```bash
+      python ./install.py
+      ./install/MaaPiCli
+      ```
+
+5. 完成开发工作后，上传您的代码并发布版本（本模板已配置自动打包及发版 CI）。
 
 ```bash
 # 配置 git 信息
@@ -37,4 +46,3 @@ git push origin HEAD -u
 git tag v1.0.0
 git push origin v1.0.0
 ```
-
