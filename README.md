@@ -22,7 +22,7 @@ MaaFramework 实践模板。
 
 4. 按需求修改 `assets` 中的资源文件，请参考 MaaFramework 相关文档。
 
-    - 可使用 [MaaDebugger](https://github.com/MaaXYZ/MaaDebugger.git) 进行调试；
+    - 可使用 [MaaDebugger](https://github.com/MaaXYZ/MaaDebugger) 进行调试；
     - 也可以在本地安装后测试：
 
         1. 执行安装脚本
