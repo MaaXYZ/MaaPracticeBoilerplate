@@ -48,7 +48,7 @@ MaaFramework 实践模板。
 
 6. 发版您的版本
 
-    需要先修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions`
+    需要先修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
     
     ```bash
     # CI 检测到 tag 会自动进行发版
