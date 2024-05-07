@@ -1,9 +1,17 @@
 {
     "controller": [
         {
-            "name": "ADB 默认方式",
-            "type": "Adb",
-            "screencap": 16580608
+            "name": "安卓端",
+            "type": "Adb"
+        },
+        {
+            "name": "桌面端",
+            "type": "Win32",
+            "win32": {
+                "method": "Search",
+                "class_name": ".*",
+                "window_name": "Visual Studio"
+            }
         }
     ],
     "resource": [
