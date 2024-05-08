@@ -12,6 +12,8 @@ MaaFramework 实践模板。
     git clone --recursive https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
     ```
 
+    **请注意，一定要完整克隆子项目，不要漏了 `--recursive`**
+
 2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中。
 
 3. 配置资源文件。
