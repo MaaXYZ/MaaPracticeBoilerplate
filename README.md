@@ -12,7 +12,7 @@ MaaFramework 实践模板。
     git clone --recursive https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
     ```
 
-    **请注意，一定要完整克隆子项目，不要漏了 `--recursive`**
+    **请注意，一定要完整克隆子项目，不要漏了 `--recursive`，也不要下载 zip 包！**
 
 2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中。
 
@@ -28,11 +28,11 @@ MaaFramework 实践模板。
     - 也可以在本地安装后测试：
 
         1. 执行安装脚本
-           
-      ```bash
-      python ./install.py
-      ```
-      
+
+            ```bash
+            python ./install.py
+            ```
+
         2. 运行 `install/MaaPiCli.exe`
 
 5. 完成开发工作后，上传您的代码并发布版本。
@@ -51,7 +51,7 @@ MaaFramework 实践模板。
 6. 发版您的版本
 
     需要先修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
-    
+
     ```bash
     # CI 检测到 tag 会自动进行发版
     git tag v1.0.0
