@@ -48,7 +48,7 @@ MaaFramework 实践模板。
     git push origin HEAD -u
     ```
 
-6. 发版您的版本
+6. 发布您的版本
 
     需要先修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
