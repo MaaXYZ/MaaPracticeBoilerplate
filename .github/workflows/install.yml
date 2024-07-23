@@ -159,7 +159,8 @@ jobs:
       - run: |
           cd assets
           for f in *; do
-            (cd $f && zip -r ../$f-${{ needs.meta.outputs.tag }}.zip .)
+            (cd $f && zip -r ../$f-${{ needs.meta.outputs.tag }}.zip .) && \
+            sha256sum ../$f-${{ needs.meta.outputs.tag }}.zip > ../$f-${{ needs.meta.outputs.tag }}.zip.sha256
           done
       - uses: softprops/action-gh-release@v1
         with:
