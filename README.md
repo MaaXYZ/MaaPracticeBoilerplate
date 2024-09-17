@@ -89,10 +89,8 @@ MAA 正计划建设为一类项目，而非舟的单一软件。
 ### 我是第一次使用 Python，在命令行输入 `python ./configure.py` 或 `python -m pip install MaaFW` 之后没有反应？没有报错，也没有提示成功，什么都没有
 
 Win10 或者 Win11 系统自带了一份 "Python"，但它其实只是一个安装器，是没法用的。  
-你需要做的是关闭它或者删除它的环境变量，然后自己去 Python 官网下载并安装一份 Python。
-
-- [参考方法1](https://www.bilibili.com/read/cv27435607/)
-- [参考方法2](https://blog.51cto.com/u_16088280/6248807)
+你需要做的是关闭它或者删除它的环境变量，然后自己去 Python 官网下载并安装一份 Python。  
+[参考方法](https://www.bilibili.com/read/cv24692025/)
 
 ### 我输入 `python ./configure.py` 后报错：`Please clone this repository completely, don’t miss "--recursive", and don’t download the zip package!`
 
