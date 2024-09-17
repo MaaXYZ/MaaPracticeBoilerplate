@@ -84,6 +84,38 @@ MAA 正计划建设为一类项目，而非舟的单一软件。
 
 同时，我们也非常欢迎您提出 PR，在 [最佳实践列表](https://github.com/MaaXYZ/MaaFramework#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5) 中添加上您的项目！
 
+## FAQ
+
+### 我是第一次使用 Python，在命令行输入 `python ./configure.py` 或 `python -m pip install MaaFW` 之后没有反应？没有报错，也没有提示成功，什么都没有
+
+Win10 或者 Win11 系统自带了一份 "Python"，但它其实只是一个安装器，是没法用的。  
+你需要做的是关闭它或者删除它的环境变量，然后自己去 Python 官网下载并安装一份 Python。
+
+- [参考方法1](https://www.bilibili.com/read/cv27435607/)
+- [参考方法2](https://blog.51cto.com/u_16088280/6248807)
+
+### 我输入 `python ./configure.py` 后报错：`Please clone this repository completely, don’t miss "--recursive", and don’t download the zip package!`
+
+![项目不完整1](https://github.com/user-attachments/assets/e1f697c0-e5b6-4853-8664-a358df7327a8)
+
+请仔细阅读文档！！！  
+就是你现在正在阅读的本篇文档，就在上面，“如何开发”里的第一条，都已经用粗体标出来了，再问我要骂人了！
+
+### 使用 MaaDebugger 或 MaaPicli 时弹窗报错，应用程序错误：应用程序无法正常启动
+
+![缺少运行库](https://github.com/user-attachments/assets/942df84b-f47d-4bb5-98b5-ab5d44bc7c2a)
+
+一般是电脑缺少某些运行库，请安装一下 [vc_redist](https://aka.ms/vs/17/release/vc_redist.x64.exe) 。
+
+### 我在这个仓库里提了 Issue 很久没人回复
+
+这里是《项目模板》仓库，它仅仅是一个模板，一般很少会修改，开发者也较少关注。  
+在此仓库请仅提问模板相关问题，其他问题最好前往对应的仓库提出，如果有 log，最好也带上它（`debug/maa.log` 文件）
+
+- MaaFW 本身的问题：[MaaFramework](https://github.com/MaaXYZ/MaaFramework/issues)
+- 调试器网页的问题：[MaaDebugger](https://github.com/MaaXYZ/MaaDebugger/issues)
+- 不知道是什么问题：[讨论区](https://github.com/orgs/MaaXYZ/discussions)
+
 ## 鸣谢
 
 本项目由 **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** 强力驱动！
