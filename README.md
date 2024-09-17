@@ -112,9 +112,9 @@ Win10 或者 Win11 系统自带了一份 "Python"，但它其实只是一个安�
 这里是《项目模板》仓库，它仅仅是一个模板，一般很少会修改，开发者也较少关注。  
 在此仓库请仅提问模板相关问题，其他问题最好前往对应的仓库提出，如果有 log，最好也带上它（`debug/maa.log` 文件）
 
-- MaaFW 本身的问题：[MaaFramework](https://github.com/MaaXYZ/MaaFramework/issues)
-- 调试器网页的问题：[MaaDebugger](https://github.com/MaaXYZ/MaaDebugger/issues)
-- 不知道是什么问题：[讨论区](https://github.com/orgs/MaaXYZ/discussions)
+- MaaFW 本身及 MaaPiCli 的问题：[MaaFramework/issues](https://github.com/MaaXYZ/MaaFramework/issues)
+- MaaDebugger 的问题：[MaaDebugger/issues](https://github.com/MaaXYZ/MaaDebugger/issues)
+- 不知道算是哪里的、其他疑问等：[讨论区](https://github.com/orgs/MaaXYZ/discussions)
 
 ## 鸣谢
 
