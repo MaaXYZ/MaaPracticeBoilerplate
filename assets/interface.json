@@ -8,9 +8,8 @@
             "name": "桌面端",
             "type": "Win32",
             "win32": {
-                "method": "Search",
-                "class_name": ".*",
-                "window_name": "Visual Studio"
+                "class_regex": ".*",
+                "window_regex": "Visual Studio"
             }
         }
     ],
@@ -47,7 +46,7 @@
             "option": [
                 "任务选项1"
             ],
-            "param": {}
+            "pipeline_override": {}
         }
     ],
     "option": {
@@ -55,7 +54,7 @@
             "cases": [
                 {
                     "name": "文本1",
-                    "param": {
+                    "pipeline_override": {
                         "OcrTask": {
                             "text": "文本1"
                         }
@@ -63,7 +62,7 @@
                 },
                 {
                     "name": "文本2",
-                    "param": {
+                    "pipeline_override": {
                         "OcrTask": {
                             "text": "文本2"
                         }
