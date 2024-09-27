@@ -11,7 +11,7 @@ def configure_ocr_model():
         print("请完整克隆本仓库，不要漏掉 \"--recursive\"，也不要下载 zip 包！")
         exit(1)
 
-    ocr_dir = assets_dir / "resource" / "base" / "model" / "ocr"
+    ocr_dir = assets_dir / "resource" / "model" / "ocr"
     if not ocr_dir.exists():   # copy default OCR model only if dir does not exist
         shutil.copytree(
             assets_dir / "MaaCommonAssets" / "OCR" / "ppocr_v4" / "zh_cn",

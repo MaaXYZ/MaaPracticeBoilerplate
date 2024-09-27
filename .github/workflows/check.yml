@@ -33,4 +33,4 @@ jobs:
 
       - name: Check Resource
         run: |
-            python ./check_resource.py ./assets/resource/base/
+            python ./check_resource.py ./assets/resource/
