@@ -78,7 +78,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MAAxxx-win-${{ matrix.arch }}
+          name: MaaXXX-win-${{ matrix.arch }}
           path: "install"
 
   ubuntu:
@@ -110,7 +110,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MAAxxx-linux-${{ matrix.arch }}
+          name: MaaXXX-linux-${{ matrix.arch }}
           path: "install"
 
   macos:
@@ -142,7 +142,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MAAxxx-macos-${{ matrix.arch }}
+          name: MaaXXX-macos-${{ matrix.arch }}
           path: "install"
 
   android:
@@ -164,7 +164,6 @@ jobs:
           repository: MaaXYZ/MaaFramework
           fileName: "MAA-android-${{ matrix.arch }}*"
           latest: true
-          
           out-file-path: "deps"
           extract: true
 
@@ -175,7 +174,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MAAxxx-android-${{ matrix.arch }}
+          name: MaaXXX-android-${{ matrix.arch }}
           path: "install"
 
   release:
