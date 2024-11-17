@@ -44,23 +44,23 @@
     - 可使用 [MaaDebugger](https://github.com/MaaXYZ/MaaDebugger) 进行调试；
     - 也可以在本地安装后测试：
 
-    1. 执行安装脚本
+        1. 执行安装脚本
 
-        ```bash
-        python ./install.py
-        ```
+            ```bash
+            python ./install.py
+            ```
 
-    2. 执行`MaaPiCli`
+        2. 执行`MaaPiCli`
 
-        - **Windows**
+            - **Windows**
 
-            运行 `install/MaaPiCli.exe`
+                运行 `install/MaaPiCli.exe`
 
-        - **Linux/macOS**
+            - **Linux/macOS**
 
-            > 如果提示缺少启动权限，可通过 `chmod a+x install/MaaPiCli` 命令添加
+                > 如果提示缺少启动权限，可通过 `chmod a+x install/MaaPiCli` 命令添加
 
-            运行 `install/MaaPiCli`
+                运行 `install/MaaPiCli`
 
 5. 完成开发工作后，上传您的代码并发布版本。
 
