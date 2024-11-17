@@ -29,17 +29,18 @@
     git clone --recursive https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
     ```
 
-    **请注意，一定要完整克隆子项目，不要漏了 `--recursive`，也不要下载 zip 包！** 这步未正确操作会导致所有 OCR（文字识别）失败！
+    **请注意，一定要完整克隆子项目，不要漏了 `--recursive`，也不要下载 zip 包！**  
+    这步未正确操作会导致所有 OCR（文字识别）失败！
 
-2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中。
+3. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中。
 
-3. 配置资源文件。
+4. 配置资源文件。
 
     ```bash
     python ./configure.py
     ```
 
-4. 按需求修改 `assets` 中的资源文件，请参考 MaaFramework 相关文档。
+5. 按需求修改 `assets` 中的资源文件，请参考 MaaFramework 相关文档。
 
     - 可使用 [MaaDebugger](https://github.com/MaaXYZ/MaaDebugger) 进行调试；
     - 也可以在本地安装后测试：
@@ -62,7 +63,7 @@
 
                 运行 `install/MaaPiCli`
 
-5. 完成开发工作后，上传您的代码并发布版本。
+6. 完成开发工作后，上传您的代码并发布版本。
 
     ```bash
     # 配置 git 信息（仅第一次需要，后续不用再配置）
@@ -75,7 +76,7 @@
     git push origin HEAD -u
     ```
 
-6. 发布您的版本
+7. 发布您的版本
 
     需要先修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
