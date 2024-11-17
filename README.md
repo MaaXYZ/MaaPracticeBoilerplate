@@ -50,7 +50,17 @@
             python ./install.py
             ```
 
-        2. 运行 `install/MaaPiCli.exe`
+        2. 执行`MaaPiCli`
+
+            - **Windows**
+
+                运行 `install/MaaPiCli.exe`
+
+            - **Linux/macOS**
+
+                > 如果提示缺少启动权限，可通过 `chmod a+x install/MaaPiCli` 命令添加
+
+                运行 `install/MaaPiCli`
 
 5. 完成开发工作后，上传您的代码并发布版本。
 
