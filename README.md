@@ -61,7 +61,14 @@
       2. 给予启动权限 `chmod a+x MaaPiCli./MaaPiCli`
       3. 命令行直接运行`install/MaaPiCli`进行启动参数的调试
    ### Linux
-      1. 大佬应该不需要教看了上面都会了  
+       1. 执行安装脚本
+      
+          ```bash
+          python ./install.py
+          ```
+  
+      2. 给予启动权限 `chmod a+x MaaPiCli./MaaPiCli`
+      3. 命令行直接运行`install/MaaPiCli`进行启动参数的调试
 5. 完成开发工作后，上传您的代码并发布版本。
 
     ```bash
