@@ -41,7 +41,7 @@ body:
       description: |
         **请在关闭 MXX 后，上传以下 3 个文件：**
           1. `debug` 文件夹中的 `maa.log` `maa.bak.log` 日志文件，并说明问题出现的大致时间点
-          2. `config` 文件夹中的 `maa_pi_config.json`(MaaPiCli) 或 `config.json`(MFAWPF) 配置文件
+          2. `config` 文件夹中的 `maa_pi_config.json`(MaaPiCli) 配置文件
 
         如果你在使用 MacBook，请点击屏幕左上角的“文件”，点击“打开日志文件夹”
         **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**

@@ -55,7 +55,7 @@ body:
       description: >-
         **After closing MXX, upload the following 3 files:**
           1. The `maa.log` and `maa.bak.log` log file in the `debug` folder, and indicate the approximate point in time when the problem occurred.
-          2. The `maa_pi_config.json`(MaaPiCli) or `config.json`(MFAWPF) config file in the `config` folder
+          2. The `maa_pi_config.json`(MaaPiCli) config file in the `config` folder
 
         If you are using MacBook, please click the "File" option in the top-left corner of the screen, then click "Open Log Folder".
         **Please drag and drop the full file in, not your own cuttings or copies;**
