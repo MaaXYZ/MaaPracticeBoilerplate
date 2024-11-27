@@ -85,7 +85,8 @@ body:
 
         If available, upload screenshots and recordings to help explain your problem,
         including but not limited to screenshots of MXX software,
-        screenshots of game screens.
+        screenshots of game screens, MXX debug screenshots (`debug/vision` path pictures,
+        after modifying `save_draw` in `config/maa_option.json` to `true`, run MXX again to obtain)
 
         If the problem is **recognition related**, please help by providing
         the **original image** taken by the emulator's own screenshot tool
