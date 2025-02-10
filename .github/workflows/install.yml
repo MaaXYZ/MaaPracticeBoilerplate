@@ -94,7 +94,7 @@ jobs:
           cp MFAWPF/MFAWPF.exe install
 
       - name: Download MFW
-        if: ${{ matrix.os != 'win' }} && ${{ matrix.os != 'android' }}
+        if: ${{ matrix.os != 'win' && matrix.os != 'android' }}
         uses: robinraju/release-downloader@v1
         with:
           repository: overflow65537/MFW-PyQt6
@@ -104,7 +104,7 @@ jobs:
           extract: true
 
       - name: Install MFW-PyQt6
-        if: ${{ matrix.os != 'win' }} && ${{ matrix.os != 'android' }}
+        if: ${{ matrix.os != 'win' && matrix.os != 'android' }}
         shell: bash
         run: |
           rm -rf MFW-PyQt6/MFW_resource/model
