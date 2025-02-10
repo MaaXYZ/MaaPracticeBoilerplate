@@ -63,27 +63,6 @@ jobs:
         with:
           submodules: true
 
-      - name: Download MFAWPF
-        if: ${{ matrix.os == 'win' }}
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: SweetSmellFox/MFAWPF
-          fileName: "MFAWPF*"
-          latest: true
-          out-file-path: "install"
-          extract: true
-
-      - name: Download MFW
-        if: ${{ matrix.os != 'win' && matrix.os != 'android' }}
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: overflow65537/MFW-PyQt6
-          fileName: "MFW-PyQt6-${{ matrix.os }}-${{ matrix.arch }}*"
-          latest: true
-          out-file-path: "install"
-          extract: true
-
-      # 最后再下载MaaFramework，以覆盖 UI 包里带的 MaaFramework
       - name: Download MaaFramework
         uses: robinraju/release-downloader@v1
         with:
@@ -97,6 +76,39 @@ jobs:
         shell: bash
         run: |
           python ./install.py ${{ needs.meta.outputs.tag }}
+
+      - name: Download MFAWPF
+        if: ${{ matrix.os == 'win' }}
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: SweetSmellFox/MFAWPF
+          fileName: "MFAWPF*"
+          latest: true
+          out-file-path: "MFAWPF"
+          extract: true
+
+      - name: Install MFAWPF
+        if: ${{ matrix.os == 'win' }}
+        shell: bash
+        run: |
+          cp MFAWPF/MFAWPF.exe install
+
+      - name: Download MFW
+        if: ${{ matrix.os != 'win' }} && ${{ matrix.os != 'android' }}
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: overflow65537/MFW-PyQt6
+          fileName: "MFW-PyQt6-${{ matrix.os }}-${{ matrix.arch }}*"
+          latest: true
+          out-file-path: "MFW-PyQt6"
+          extract: true
+
+      - name: Install MFW-PyQt6
+        if: ${{ matrix.os != 'win' }} && ${{ matrix.os != 'android' }}
+        shell: bash
+        run: |
+          rm -rf MFW-PyQt6/MFW_resource/model
+          cp -r MFW-PyQt6/* install
 
       - uses: actions/upload-artifact@v4
         with:
