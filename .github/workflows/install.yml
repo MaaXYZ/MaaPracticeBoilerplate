@@ -74,7 +74,7 @@ jobs:
           extract: true
 
       - name: Download MFW
-        if: ${{ matrix.os != 'win' }}
+        if: ${{ matrix.os != 'win' }} && ${{ matrix.os != 'android' }}
         uses: robinraju/release-downloader@v1
         with:
           repository: overflow65537/MFW-PyQt6
