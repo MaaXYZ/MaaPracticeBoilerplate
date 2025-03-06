@@ -28,6 +28,12 @@
             ]
         }
     ],
+    "agent": {
+        "child_exec": "python",
+        "child_args": [
+            "{PROJECT_DIR}/agent/main.py"
+        ]
+    },
     "task": [
         {
             "name": "普通任务",
@@ -47,6 +53,10 @@
                 "任务选项1"
             ],
             "pipeline_override": {}
+        },
+        {
+            "name": "带Custom的任务",
+            "entry": "MyTask4"
         }
     ],
     "option": {
