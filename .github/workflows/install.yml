@@ -72,43 +72,32 @@ jobs:
           out-file-path: "deps"
           extract: true
 
+      - name: Download MFAAvalonia
+        if: matrix.os != 'android'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: SweetSmellFox/MFAAvalonia
+          fileName: "MFAAvalonia-*-${{ (matrix.os == 'win' && 'win') || (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
+          latest: true
+          out-file-path: "MFA"
+          extract: true
+
       - name: Install
         shell: bash
         run: |
           python ./install.py ${{ needs.meta.outputs.tag }}
 
-      - name: Download MFAWPF
-        if: ${{ matrix.os == 'win' }}
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: SweetSmellFox/MFAWPF
-          fileName: "MFAWPF*"
-          latest: true
-          out-file-path: "MFAWPF"
-          extract: true
-
-      - name: Install MFAWPF
-        if: ${{ matrix.os == 'win' }}
-        shell: bash
-        run: |
-          cp MFAWPF/MFAWPF.exe install
-
-      - name: Download MFW
-        if: ${{ matrix.os != 'win' && matrix.os != 'android' }}
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: overflow65537/MFW-PyQt6
-          fileName: "MFW-PyQt6-${{ matrix.os }}-${{ matrix.arch }}*"
-          latest: true
-          out-file-path: "MFW-PyQt6"
-          extract: true
-
-      - name: Install MFW-PyQt6
-        if: ${{ matrix.os != 'win' && matrix.os != 'android' }}
-        shell: bash
-        run: |
-          rm -rf MFW-PyQt6/MFW_resource/model
-          cp -r MFW-PyQt6/* install
+          if [[ "${{ matrix.os }}" != "android" ]]; then
+            if [ -d "MFA" ]; then
+              echo "Copying MFA files to install directory..."
+              mkdir -p install
+              rsync -av --ignore-existing MFA/ install/
+            else
+              echo "MFA directory not found, skipping copy."
+            fi
+          else
+            echo "Skipping copy MFA for Android."
+          fi
 
       - uses: actions/upload-artifact@v4
         with:
