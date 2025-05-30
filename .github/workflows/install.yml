@@ -74,6 +74,7 @@ jobs:
 
       - name: Download MFAAvalonia
         if: matrix.os != 'android'
+        id: download_mfa
         uses: robinraju/release-downloader@v1
         with:
           repository: SweetSmellFox/MFAAvalonia
@@ -81,6 +82,14 @@ jobs:
           latest: true
           out-file-path: "MFA"
           extract: true
+
+      - name: Clean up MFAAvalonia archive
+        if: matrix.os != 'android'
+        shell: bash
+        run: |
+          ARCHIVE_FILE_PATH="${{ fromJson(steps.download_mfa.outputs.downloaded_files)[0] }}"
+          rm -f "${ARCHIVE_FILE_PATH}"
+          echo "Archive cleanup command executed for MFAAvalonia."
 
       - name: Install
         shell: bash
