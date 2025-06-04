@@ -93,7 +93,7 @@ Win10 或者 Win11 系统自带了一份 "Python"，但它其实只是一个安�
 
 ![项目不完整1](https://github.com/user-attachments/assets/e1f697c0-e5b6-4853-8664-a358df7327a8)
 
-请确认本文档“如何开发”里的第三条已经成功执行了，可以检查一下 `assets/MaaCommonAssets/OCR/ppocr_v5/zh_cn` 文件夹是否存在，及里面有没有文件。
+请确认本文档“如何开发”里的第 3 条“下载通用资源子模块”已经成功执行了，可以检查一下 `assets/MaaCommonAssets/OCR/ppocr_v5/zh_cn` 文件夹是否存在，及里面有没有文件。
 
 ### 3. 使用 MaaDebugger 或 MaaPicli 时弹窗报错，应用程序错误：应用程序无法正常启动
 
