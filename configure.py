@@ -2,13 +2,13 @@ from pathlib import Path
 
 import shutil
 
-assets_dir = Path(__file__).parent / "assets"
+assets_dir = Path(__file__).parent.resolve() / "assets"
 
 
 def configure_ocr_model():
-    if not (assets_dir / "MaaCommonAssets" / "OCR").exists():
-        print("Please clone this repository completely, don’t miss \"--recursive\", and don’t download the zip package!")
-        print("请完整克隆本仓库，不要漏掉 \"--recursive\"，也不要下载 zip 包！")
+    assets_ocr_dir = assets_dir / "MaaCommonAssets" / "OCR"
+    if not assets_ocr_dir.exists():
+        print(f"File Not Found: {assets_ocr_dir}")
         exit(1)
 
     ocr_dir = assets_dir / "resource" / "model" / "ocr"
