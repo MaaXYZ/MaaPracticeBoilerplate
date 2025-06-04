@@ -23,47 +23,32 @@
 
 0. 使用右上角 `Use this template` - `Create a new repository` 来基于本模板创建您自己的项目。
 
-1. 完整克隆本项目及子项目（地址请修改为您基于本模板创建的新项目地址）。
+1. 克隆本项目及子项目（地址请修改为您基于本模板创建的新项目地址）。
 
     ```bash
-    git clone --recursive https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
+    git clone https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
     ```
-
-    **请注意，一定要完整克隆子项目，不要漏了 `--recursive`，也不要下载 zip 包！**  
-    这步未正确操作会导致所有 OCR（文字识别）失败！
 
 2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中。
 
-3. 配置资源文件。
+3. 下载通用资源子模块（MaaCommonAssets）
+
+    ```bash
+    git submodule update --init --recursive
+    ```
+
+    请注意，子模块仓库体积较大，请确认您已经成功下载，否则后续 OCR（文字识别）将报错并无识别结果。  
+    若 git 命令始终无法成功下载，也可尝试前往 [Mirror酱](https://mirrorchyan.com/zh/projects?rid=MaaCommonAssets&source=ghtempl-readme) 手动下载后解压到 `assets/MaaCommonAssets` 文件夹中。
+
+4. 配置资源文件。
 
     ```bash
     python ./configure.py
     ```
 
-4. 按需求修改 `assets` 中的资源文件，请参考 MaaFramework 相关文档。
+5. 按需求修改 `assets` 中的资源文件，请参考 [MaaFramework 相关文档](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E8%B5%84%E6%BA%90%E5%87%86%E5%A4%87)。
 
-    - 可使用 [MaaDebugger](https://github.com/MaaXYZ/MaaDebugger) 进行调试；
-    - 也可以在本地安装后测试：
-
-        1. 执行安装脚本
-
-            ```bash
-            python ./install.py
-            ```
-
-        2. 执行`MaaPiCli`
-
-            - **Windows**
-
-                运行 `install/MaaPiCli.exe`
-
-            - **Linux/macOS**
-
-                > 如果提示缺少启动权限，可通过 `chmod a+x install/MaaPiCli` 命令添加
-
-                运行 `install/MaaPiCli`
-
-5. 完成开发工作后，上传您的代码并发布版本。
+6. 完成开发工作后，上传您的代码并发布版本。
 
     ```bash
     # 配置 git 信息（仅第一次需要，后续不用再配置）
@@ -76,7 +61,7 @@
     git push origin HEAD -u
     ```
 
-6. 发布您的版本
+7. 发布您的版本
 
     需要**先**修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
@@ -86,7 +71,7 @@
     git push origin v1.0.0
     ```
 
-7. 更多操作，请参考[个性化配置](./docs/zh_cn/个性化配置.md)（可选）
+8. 更多操作，请参考[个性化配置](./docs/zh_cn/个性化配置.md)（可选）
 
 ## 生态共建
 
@@ -108,8 +93,7 @@ Win10 或者 Win11 系统自带了一份 "Python"，但它其实只是一个安�
 
 ![项目不完整1](https://github.com/user-attachments/assets/e1f697c0-e5b6-4853-8664-a358df7327a8)
 
-**请仔细阅读文档！！！**  
-就是你现在正在看的本篇文档，就在上面，“如何开发”里的第一条，都已经用粗体标出来了，再问我要骂人了！
+请确认本文档“如何开发”里的第三条已经成功执行了，可以检查一下 `assets/MaaCommonAssets/OCR/ppocr_v5/zh_cn` 文件夹是否存在，及里面有没有文件。
 
 ### 3. 使用 MaaDebugger 或 MaaPicli 时弹窗报错，应用程序错误：应用程序无法正常启动
 
@@ -128,7 +112,7 @@ Win10 或者 Win11 系统自带了一份 "Python"，但它其实只是一个安�
 
 ### 5. OCR 文字识别一直没有识别结果，报错 "Failed to load det or rec", "ocrer_ is null"
 
-你不但没有仔细阅读文档，还无视了前面步骤的报错。我不想解释了，请再把本文档仔细阅读一遍！
+**请仔细阅读文档**，你无视了前面步骤的报错。我不想解释了，请再把本文档仔细阅读一遍！
 
 ## 鸣谢
 
