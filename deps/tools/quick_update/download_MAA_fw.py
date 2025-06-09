@@ -1,10 +1,13 @@
+import ctypes
 import os
+import platform
 import sys
 import zipfile
-import ctypes
+from ctypes import wintypes
+from pathlib import Path
+from typing import Optional
+
 import requests
-import platform
-from typing import Optional, List, Generator
 
 
 def detect_os():
@@ -34,33 +37,76 @@ def detect_arch():
 
 
 def get_local_version_from_dll(dll_path: str) -> Optional[str]:
-    """尝试从本地dll获取maafw版本
+    """安全地从本地 DLL 获取 maafw 版本并卸载 DLL
 
     Arguments:
-        dll_path {str} -- dll路径
+        dll_path {str} -- DLL 路径
 
     Returns:
-        Optional[str] -- dll版本
+        Optional[str] -- DLL 版本，失败时返回 None
     """
-    try:
-        # 尝试加载 DLL
-        lib = ctypes.CDLL(dll_path)
+    # 确保路径是绝对路径
+    dll_path = os.path.abspath(dll_path)
 
-        # 检查是否存在 MaaVersion 函数
+    # 1. 尝试加载 DLL
+    try:
+        # 使用 WinDLL 以便获取句柄
+        lib = ctypes.WinDLL(dll_path)
+    except OSError as e:
+        print(f"加载 DLL 失败: {e}", file=sys.stderr)
+        return None
+
+    # 记录句柄用于后续卸载
+    dll_handle = lib._handle
+
+    try:
+        # 2. 检查是否存在 MaaVersion 函数
         if not hasattr(lib, 'MaaVersion'):
+            print(f"DLL 缺少 MaaVersion 函数: {dll_path}", file=sys.stderr)
             return None
 
-        # 设置函数签名
+        # 3. 设置函数签名
         lib.MaaVersion.restype = ctypes.c_char_p
         lib.MaaVersion.argtypes = []
 
-        # 调用函数并返回解码后的字符串
+        # 4. 调用函数获取版本
         version_bytes = lib.MaaVersion()
+
+        # 确保返回的是 bytes
+        if not isinstance(version_bytes, bytes):
+            print("MaaVersion 返回无效类型", file=sys.stderr)
+            return None
+
         return version_bytes.decode('utf-8')
 
-    except (OSError, AttributeError, ctypes.ArgumentError):
-        # 捕获所有可能的加载/调用异常
+    except (AttributeError, ctypes.ArgumentError) as e:
+        print(f"调用 DLL 函数出错: {e}", file=sys.stderr)
         return None
+
+    finally:
+        # 5. 无论如何都尝试卸载 DLL
+        _safe_unload_dll(dll_handle)
+
+
+def _safe_unload_dll(handle: int) -> bool:
+    """安全卸载 DLL
+
+    Arguments:
+        handle {int} -- DLL 句柄
+
+    Returns:
+        bool -- 是否成功卸载
+    """
+    try:
+        if handle and kernel32.FreeLibrary(handle):
+            return True
+        return False
+    except Exception as e:
+        print(f"卸载 DLL 失败: {e}", file=sys.stderr)
+        return False
+    finally:
+        # 清除引用，帮助垃圾回收
+        del handle
 
 
 def get_local_platform():
@@ -116,6 +162,7 @@ def custum_ver_select(resource_list):
                 return False
             choice_idx = int(choice)  # 转换为0开始的索引
             if 0 <= choice_idx < len(resource_list):
+                print(f"下载链接: {resource_list[choice_idx]['url']}")
                 return resource_list[choice_idx]["url"]
             else:
                 print(f"无效的选择，请输入 1-{len(resource_list)} 之间的数字")
@@ -243,16 +290,24 @@ def unzip(filename, target_dir=None):
     try:
         with zipfile.ZipFile(filename, 'r') as zip_ref:
             file_list = zip_ref.namelist()
-
             total_files = len(file_list)
+
             for i, file in enumerate(file_list, 1):
                 zip_ref.extract(file, target_dir)
-                # 每解压10个文件显示一次进度
-                if i % 10 == 0 or i == total_files:
-                    print(f"解压进度: {i}/{total_files} ({i/total_files:.0%})")
 
-        print("解压完成！")
-        return True
+                # 计算进度百分比
+                progress = i / total_files
+                # 构造进度条字符串（50字符宽度）
+                bar_length = 50
+                bar = '█' * int(bar_length * progress)
+                percent = f"{progress:.0%}"
+                # 使用回车符覆盖当前行
+                print(
+                    f"\r解压进度: [{bar:<{bar_length}}] {percent} ({i}/{total_files})", end="")
+
+            # 最后换行
+            print("\n解压完成！")
+            return True
     except zipfile.BadZipFile:
         print(f"错误: {filename} 不是有效的ZIP文件")
         return False
@@ -264,8 +319,35 @@ def unzip(filename, target_dir=None):
         return False
 
 
-def main(isdebug=False):
-    if isdebug:
+def delete_file(filename):
+    """安全删除文件并处理所有异常"""
+    try:
+        # 使用 pathlib 处理路径更安全
+        file_path = Path(filename)
+
+        # 检查是否为文件（避免误删目录）
+        if file_path.is_file():
+            # 实际删除文件
+            file_path.unlink()
+            print(f"文件 '{filename}' 已成功删除")
+            return True
+        elif file_path.exists():
+            print(f"'{filename}' 是目录而非文件")
+            return False
+        else:
+            print(f"文件 '{filename}' 不存在，无需删除")
+            return False
+
+    except PermissionError:
+        print(f"没有权限删除 '{filename}'")
+        return False
+    except Exception as e:
+        print(f"删除文件时出错: {e}")
+        return False
+
+
+def main(is_debug=False, is_delete=True):
+    if is_debug:
         print("处于调试模式，将无视版本进行下载")
 
     print("正在获取最新版本信息", end=":\t")
@@ -281,38 +363,55 @@ def main(isdebug=False):
         auto_update = True
 
     print("正在获取本地版本信息", end=":\n")
-    file_ver = get_local_version_from_dll("../../bin/MaaFramework.dll")
+    file_ver = get_local_version_from_dll(dll_path)
     print(f"本地版本:{file_ver}")
 
     url_ver = select_download_resource(download_options, auto_update)
 
     print("网络正常，与最新版本信息比较中")
-    if check_version(file_ver, url_ver) is False or isdebug:
+    if check_version(file_ver, url_ver) is False or is_debug or is_delete is False:
+        print(f"\n当前版本{check_version(file_ver, url_ver)}最新版本\n")
         url = url_ver
-        print(url)
-        print("正在下载文件")
-        download_file(url)
+        print("正在下载文件MaaFramework.zip")
+        # download_file(url)
         print("正在解压文件")
         unzip("MaaFramework.zip")
         print("解压完成")
     else:
         print("已是最新版本，无需更新")
 
+    if is_debug:
+        pass
+    elif is_delete:
+        delete_file("MaaFramework.zip")
+
 
 print("正在切换工作路径至exe所在路径")
 os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
-if "--debug" in sys.argv:
-    main(True)
-elif "--unzip" in sys.argv:  # 仅进行本地压缩包解压，不下载
+
+kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+kernel32.FreeLibrary.argtypes = [wintypes.HMODULE]
+kernel32.FreeLibrary.restype = wintypes.BOOL
+dll_path = os.path.abspath("../../bin/MaaFramework.dll")
+
+
+if "--unzip" in sys.argv:  # 仅进行本地压缩包解压，不下载
     unzip("MaaFramework.zip")
 elif "--check_version" in sys.argv:  # 仅进行版本检查,不下载
-    file_ver = get_local_version_from_dll("../../bin/MaaFramework.dll")
+    file_ver = get_local_version_from_dll(dll_path)
     print(file_ver)
     url_ver = select_download_resource(get_github_download_options(), True)
     print(url_ver)
     check_resalt = check_version(file_ver, url_ver)
     print(check_resalt)
 else:
-    main()
+    is_debug = False
+    is_delete = True
+    if "--debug" in sys.argv:  # 无视版本进行下载,下载完成后不删除压缩包
+        is_debug = True
+    if "--not_delete" in sys.argv:  # 解压完成后不删除压缩包
+        is_delete = False
+    main(is_debug=is_debug, is_delete=is_delete)
+
 
 os.system("pause")
