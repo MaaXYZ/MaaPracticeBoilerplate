@@ -373,7 +373,7 @@ def main(is_debug=False, is_delete=True):
         print(f"\n当前版本{check_version(file_ver, url_ver)}最新版本\n")
         url = url_ver
         print("正在下载文件MaaFramework.zip")
-        # download_file(url)
+        download_file(url)
         print("正在解压文件")
         unzip("MaaFramework.zip")
         print("解压完成")
