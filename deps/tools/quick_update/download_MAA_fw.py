@@ -171,39 +171,42 @@ def custum_ver_select(resource_list):
 
 
 def get_github_download_options():
-    """获取Github的最新版本下载列表
-
-    Returns:
-        list -- 下载版本合集
-        或者是None,说明下载出问题了
-    """
+    """获取Github的下载选项（前5个版本）"""
     try:
         response = requests.get(
-            "https://api.github.com/repos/MaaXYZ/MaaFramework/releases/latest",
+            "https://api.github.com/repos/MaaXYZ/MaaFramework/releases",
             timeout=10
         )
-        response.raise_for_status()  # 如果状态码不是200则抛出异常
+        response.raise_for_status()
 
-        assets = response.json().get("assets", [])
-
-        if not assets:
-            print("该发布版未包含任何可下载资源")
+        releases = response.json()
+        if not releases:
+            print("未找到任何发布版本")
             return None
 
-        # 创建结构化资源列表
-        resource_list = []
-        print("\n可用的下载选项：")
-        for idx, asset in enumerate(assets):
-            size_mb = asset['size'] / (1024 * 1024)
-            print(f"{idx}. {asset['name']} ({size_mb:.2f} MB)")
+        # 只取前5个版本
+        recent_releases = releases[:5]
 
-            # 将资源信息添加到列表
+        resource_list = []
+        print("\n可用的版本：")
+        for idx, release in enumerate(recent_releases):
+            version = release['tag_name']
+            print(f"{idx}. {version}")
+            # 收集该版本的资源
+            assets = release.get("assets", [])
+            asset_list = []
+            for asset_idx, asset in enumerate(assets):
+                size_mb = asset['size'] / (1024 * 1024)
+                asset_list.append({
+                    "index": asset_idx,
+                    "name": asset['name'],
+                    "url": asset['browser_download_url'],
+                    "size": asset['size'],
+                    "size_mb": size_mb
+                })
             resource_list.append({
-                "index": idx,  # 从0开始的索引
-                "name": asset['name'],
-                "url": asset['browser_download_url'],
-                "size": asset['size'],
-                "size_mb": size_mb
+                "version": version,
+                "assets": asset_list
             })
 
         return resource_list
@@ -217,27 +220,51 @@ def get_github_download_options():
 
 
 def select_download_resource(resource_list, auto=False):
-    """选择下载包
-
-    Arguments:
-        resource_list {list} -- 通过Release获取到的列表
-
-    Keyword Arguments:
-        auto {bool} -- 是否自动选择下载包 (default: {False})
-
-    Returns:
-        str -- 下载路径或者是False
-        如果是False则不进行下载
-    """
-    combo_key = None
+    """选择下载资源（先选版本，再选资源）"""
     if not resource_list:
         print("没有可用的下载资源")
         return None
-    elif auto:
+
+    # 自动模式：使用最新版本
+    if auto:
+        latest_release = resource_list[0]
+        assets = latest_release['assets']
         combo_key = get_local_platform()
-        return auto_ver_select(resource_list, combo_key)
-    else:
-        return custum_ver_select(resource_list)
+        return auto_ver_select(assets, combo_key)
+
+    # 手动模式：选择版本
+    print("\n请选择版本：")
+    for idx, release in enumerate(resource_list):
+        print(f"{idx}. {release['version']}")
+
+    while True:
+        try:
+            choice = input("\n请输入版本编号 (输入 'q' 退出): ")
+            if choice.lower() == 'q':
+                return False
+
+            version_idx = int(choice)
+            if 0 <= version_idx < len(resource_list):
+                selected_release = resource_list[version_idx]
+                print(f"\n已选择版本: {selected_release['version']}")
+
+                # 显示该版本的资源
+                assets = selected_release['assets']
+                # print(assets)
+                if not assets:
+                    print("该版本没有可用的资源")
+                    return False
+
+                print("\n可用的资源：")
+                for idx, asset in enumerate(assets):
+                    print(
+                        f"{idx}. {asset['name']} ({asset['size_mb']:.2f} MB)")
+
+                return custum_ver_select(assets)
+            else:
+                print(f"无效的选择，请输入 0-{len(resource_list)-1} 之间的数字")
+        except ValueError:
+            print("请输入有效的数字")
 
 
 def check_version(file_ver, url_ver):
@@ -402,7 +429,8 @@ if __name__ == "__main__":
         print("仅进行版本检查,不下载")
         file_ver = get_local_version_from_dll(dll_path)
         print(file_ver)
-        url_ver = select_download_resource(get_github_download_options(), True)
+        url_ver = select_download_resource(
+            get_github_download_options(), False)
         print(url_ver)
         check_resalt = check_version(file_ver, url_ver)
         print(check_resalt)
