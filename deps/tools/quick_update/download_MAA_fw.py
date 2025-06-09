@@ -1,10 +1,10 @@
 import os
 import sys
 import zipfile
-
+import ctypes
 import requests
 import platform
-import time
+from typing import Optional, List, Generator
 
 
 def detect_os():
@@ -33,7 +33,103 @@ def detect_arch():
         return "unknown"
 
 
+def get_local_version_from_dll(dll_path: str) -> Optional[str]:
+    """尝试从本地dll获取maafw版本
+
+    Arguments:
+        dll_path {str} -- dll路径
+
+    Returns:
+        Optional[str] -- dll版本
+    """
+    try:
+        # 尝试加载 DLL
+        lib = ctypes.CDLL(dll_path)
+
+        # 检查是否存在 MaaVersion 函数
+        if not hasattr(lib, 'MaaVersion'):
+            return None
+
+        # 设置函数签名
+        lib.MaaVersion.restype = ctypes.c_char_p
+        lib.MaaVersion.argtypes = []
+
+        # 调用函数并返回解码后的字符串
+        version_bytes = lib.MaaVersion()
+        return version_bytes.decode('utf-8')
+
+    except (OSError, AttributeError, ctypes.ArgumentError):
+        # 捕获所有可能的加载/调用异常
+        return None
+
+
+def get_local_platform():
+    """获取本地版本地址
+
+    Returns:
+        str -- 版本号
+    """
+    os_name = detect_os()
+    arch_name = detect_arch()
+    combo_key = f"{os_name}-{arch_name}"
+    print("检测结果:", combo_key)
+    return combo_key
+
+
+def auto_ver_select(resource_list, combo_key):
+    """自动选择版本
+
+    Arguments:
+        resource_list {list} -- 通过Release获取到的列表
+        combo_key {str} -- 识别到的版本
+
+    Returns:
+        str -- 下载路径或者是False
+        如果是False则不进行下载
+    """
+    matched = next(
+        (item for item in resource_list if combo_key in item['name']), None)
+    if matched:
+        print(f"找到下载包: {matched['name']}")
+        print(f"下载链接: {matched['url']}")
+        print(f"大小: {matched['size_mb']} MB")
+        return matched['url']
+    else:
+        print("没有找到适配的版本。")
+        return False
+
+
+def custum_ver_select(resource_list):
+    """用户自行选择下载包
+
+    Arguments:
+        resource_list {list} -- 通过Release获取到的列表
+
+    Returns:
+        str -- 下载路径或者是False
+        如果是False则不进行下载
+    """
+    while True:
+        try:
+            choice = input("\n请输入要下载的选项编号 (输入 'q' 退出): ")
+            if choice.lower() == 'q':
+                return False
+            choice_idx = int(choice)  # 转换为0开始的索引
+            if 0 <= choice_idx < len(resource_list):
+                return resource_list[choice_idx]["url"]
+            else:
+                print(f"无效的选择，请输入 1-{len(resource_list)} 之间的数字")
+        except ValueError:
+            print("请输入有效的数字")
+
+
 def get_github_download_options():
+    """获取Github的最新版本下载列表
+
+    Returns:
+        list -- 下载版本合集
+        或者是None,说明下载出问题了
+    """
     try:
         response = requests.get(
             "https://api.github.com/repos/MaaXYZ/MaaFramework/releases/latest",
@@ -74,74 +170,50 @@ def get_github_download_options():
 
 
 def select_download_resource(resource_list, auto=False):
+    """选择下载包
+
+    Arguments:
+        resource_list {list} -- 通过Release获取到的列表
+
+    Keyword Arguments:
+        auto {bool} -- 是否自动选择下载包 (default: {False})
+
+    Returns:
+        str -- 下载路径或者是False
+        如果是False则不进行下载
+    """
     combo_key = None
     if not resource_list:
         print("没有可用的下载资源")
         return None
+    elif auto:
+        combo_key = get_local_platform()
+        return auto_ver_select(resource_list, combo_key)
     else:
-        os_name = detect_os()
-        arch_name = detect_arch()
-        combo_key = f"{os_name}-{arch_name}"
-        print("检测结果:", combo_key)
-
-    if auto:
-        matched = next(
-            (item for item in resource_list if combo_key in item['name']), None)
-        if matched:
-            print(f"找到下载包: {matched['name']}")
-            print(f"下载链接: {matched['url']}")
-            print(f"大小: {matched['size_mb']} MB")
-            return matched['url']
-        else:
-            print("没有找到适配的版本。")
-            return False
-    else:
-        while True:
-            try:
-                choice = input("\n请输入要下载的选项编号 (输入 'q' 退出): ")
-                if choice.lower() == 'q':
-                    return False
-
-                choice_idx = int(choice)  # 转换为0开始的索引
-
-                if 0 <= choice_idx < len(resource_list):
-                    return resource_list[choice_idx]["url"]
-                else:
-                    print(f"无效的选择，请输入 1-{len(resource_list)} 之间的数字")
-
-            except ValueError:
-                print("请输入有效的数字")
+        return custum_ver_select(resource_list)
 
 
-def read_version():
-    with open("version.txt", "a", encoding='utf-8') as f:
-        f.close()
-    with open("version.txt", "r", encoding='utf-8') as f:
-        data = f.read()
-        f.close()
-    return data
+def check_version(file_ver, url_ver):
+    """检查是否包含对应版本
+
+    Arguments:
+        file_ver {str} -- 本地dll版本
+        url_ver {str} -- 网页链接
+
+    Returns:
+        bool -- 如果包含,返回True,是最新版本
+        如果不包含,返回False,不是最新版本
+    """
+    return file_ver in url_ver
 
 
-def check_version(version_url, version_txt):
-    if version_url == version_txt:
-        print("已经是最新版本了，不需要更新")
-        return False
-    else:
-        print("不是最新版本")
-        return True
-
-
-def download_file(url, url_ver):
+def download_file(url):
     r = requests.get(
         url,
         allow_redirects=True,
         stream=True,
         timeout=10
     )
-    with open("version.txt", "w", encoding='utf-8') as f:
-        f.write(url_ver)
-        f.close()
-
     with open("MaaFramework.zip", "wb") as f:
         for chunk in r.iter_content(chunk_size=8192):
             f.write(chunk)
@@ -195,30 +267,36 @@ def unzip(filename, target_dir=None):
 def main(isdebug=False):
     if isdebug:
         print("处于调试模式，将无视版本进行下载")
+
     print("正在获取最新版本信息", end=":\t")
     download_options = get_github_download_options()
+    if download_options is None:
+        print("网络错误或者手动退出,无法更新")
+        return None
+
     auto_update = input("\n输入n或者N并且按回车\n关闭自动选择更新包功能\n")
     if auto_update in ["N", "n"]:
         auto_update = False
     else:
         auto_update = True
-    url_ver = select_download_resource(download_options, auto_update)
-    print("正在获取本地版本信息", end=":\t")
-    file_ver = read_version()
-    print(file_ver)
-    if url_ver == False:
-        print("网络错误或者手动退出,无法更新")
-        return
-    print("网络正常，与最新版本信息比较中")
 
-    if check_version(url_ver, file_ver) or isdebug:
+    print("正在获取本地版本信息", end=":\n")
+    file_ver = get_local_version_from_dll("../../bin/MaaFramework.dll")
+    print(f"本地版本:{file_ver}")
+
+    url_ver = select_download_resource(download_options, auto_update)
+
+    print("网络正常，与最新版本信息比较中")
+    if check_version(file_ver, url_ver) is False or isdebug:
         url = url_ver
         print(url)
         print("正在下载文件")
-        download_file(url, url_ver)
+        download_file(url)
         print("正在解压文件")
         unzip("MaaFramework.zip")
         print("解压完成")
+    else:
+        print("已是最新版本，无需更新")
 
 
 print("正在切换工作路径至exe所在路径")
@@ -227,8 +305,14 @@ if "--debug" in sys.argv:
     main(True)
 elif "--unzip" in sys.argv:  # 仅进行本地压缩包解压，不下载
     unzip("MaaFramework.zip")
+elif "--check_version" in sys.argv:  # 仅进行版本检查,不下载
+    file_ver = get_local_version_from_dll("../../bin/MaaFramework.dll")
+    print(file_ver)
+    url_ver = select_download_resource(get_github_download_options(), True)
+    print(url_ver)
+    check_resalt = check_version(file_ver, url_ver)
+    print(check_resalt)
 else:
     main()
-
 
 os.system("pause")
