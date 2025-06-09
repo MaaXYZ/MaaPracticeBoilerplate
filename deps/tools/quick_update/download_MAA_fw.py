@@ -391,27 +391,29 @@ os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
 
 kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
 kernel32.FreeLibrary.argtypes = [wintypes.HMODULE]
-kernel32.FreeLibrary.restype = wintypes.BOOL
 dll_path = os.path.abspath("../../bin/MaaFramework.dll")
 
 
-if "--unzip" in sys.argv:  # 仅进行本地压缩包解压，不下载
-    unzip("MaaFramework.zip")
-elif "--check_version" in sys.argv:  # 仅进行版本检查,不下载
-    file_ver = get_local_version_from_dll(dll_path)
-    print(file_ver)
-    url_ver = select_download_resource(get_github_download_options(), True)
-    print(url_ver)
-    check_resalt = check_version(file_ver, url_ver)
-    print(check_resalt)
-else:
-    is_debug = False
-    is_delete = True
-    if "--debug" in sys.argv:  # 无视版本进行下载,下载完成后不删除压缩包
-        is_debug = True
-    if "--not_delete" in sys.argv:  # 解压完成后不删除压缩包
-        is_delete = False
-    main(is_debug=is_debug, is_delete=is_delete)
-
-
-os.system("pause")
+if __name__ == "__main__":
+    if "--unzip" in sys.argv:  # 仅进行本地压缩包解压，不下载
+        print("仅进行本地压缩包解压，不下载")
+        unzip("MaaFramework.zip")
+    elif "--check_version" in sys.argv:  # 仅进行版本检查,不下载
+        print("仅进行版本检查,不下载")
+        file_ver = get_local_version_from_dll(dll_path)
+        print(file_ver)
+        url_ver = select_download_resource(get_github_download_options(), True)
+        print(url_ver)
+        check_resalt = check_version(file_ver, url_ver)
+        print(check_resalt)
+    else:
+        is_debug = False
+        is_delete = True
+        if "--debug" in sys.argv:  # 无视版本进行下载,下载完成后不删除压缩包
+            print("--debug 将无视版本检查进行下载,下载完成后不删除压缩包")
+            is_debug = True
+        if "--not_delete" in sys.argv:  # 解压完成后不删除压缩包
+            print("--not_delete 解压完成后不删除压缩包")
+            is_delete = False
+        main(is_debug=is_debug, is_delete=is_delete)
+    os.system("pause")
