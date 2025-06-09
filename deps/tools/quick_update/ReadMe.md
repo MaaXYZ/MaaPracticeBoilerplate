@@ -9,6 +9,8 @@
 
 运行时附带后缀`--unzip`将无视所有代码只进行解压测试
 
+运行时附带后缀`--check_version`将进行一次版本检查，不会下载
+
 默认更新`releases/latest`所提供的`MaaFramework`框架
 
 默认自动选择更新包
