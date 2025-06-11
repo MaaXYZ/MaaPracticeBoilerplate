@@ -21,6 +21,9 @@
             "url": "/deps/tools/interface_config.schema.json"
         }
     ],
+    "files.associations": {
+        "**/assets/**/*.json": "jsonc"
+    },
     "[json]": {
         "editor.formatOnSave": true,
         "editor.insertSpaces": true,
