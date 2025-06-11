@@ -11,6 +11,11 @@ import requests
 
 
 def detect_os():
+    """Detect the current operating system.
+
+    Returns:
+        str: "android" | "linux" | "macos" | "win" | "unknown"
+    """
     sys_platform = sys.platform
     if sys_platform.startswith("linux"):
         # 判断是不是安卓（Termux）
@@ -27,6 +32,15 @@ def detect_os():
 
 
 def detect_arch():
+    """
+    Detect the architecture of the current machine.
+
+    Returns:
+        str: "x86_64" if the machine is 64-bit Intel/AMD architecture,
+             "aarch64" if the machine is 64-bit ARM architecture,
+             or "unknown" if the architecture cannot be determined.
+    """
+
     machine = platform.machine().lower()
     if machine in ("x86_64", "amd64"):
         return "x86_64"
@@ -54,7 +68,7 @@ def get_local_version_from_dll(dll_path: str) -> Optional[str]:
         lib = ctypes.WinDLL(dll_path)
     except OSError as e:
         print(f"加载 DLL 失败: {e}", file=sys.stderr)
-        return None
+        return "NONE"
 
     # 记录句柄用于后续卸载
     dll_handle = lib._handle
@@ -63,7 +77,7 @@ def get_local_version_from_dll(dll_path: str) -> Optional[str]:
         # 2. 检查是否存在 MaaVersion 函数
         if not hasattr(lib, 'MaaVersion'):
             print(f"DLL 缺少 MaaVersion 函数: {dll_path}", file=sys.stderr)
-            return None
+            return "NONE"
 
         # 3. 设置函数签名
         lib.MaaVersion.restype = ctypes.c_char_p
@@ -75,13 +89,13 @@ def get_local_version_from_dll(dll_path: str) -> Optional[str]:
         # 确保返回的是 bytes
         if not isinstance(version_bytes, bytes):
             print("MaaVersion 返回无效类型", file=sys.stderr)
-            return None
+            return "NONE"
 
         return version_bytes.decode('utf-8')
 
     except (AttributeError, ctypes.ArgumentError) as e:
         print(f"调用 DLL 函数出错: {e}", file=sys.stderr)
-        return None
+        return "NONE"
 
     finally:
         # 5. 无论如何都尝试卸载 DLL
@@ -172,61 +186,64 @@ def custum_ver_select(resource_list):
 
 def get_github_download_options():
     """获取Github的下载选项（前5个版本）"""
+    url = "https://api.github.com/repos/MaaXYZ/MaaFramework/releases"
     try:
-        response = requests.get(
-            "https://api.github.com/repos/MaaXYZ/MaaFramework/releases",
-            timeout=10
-        )
+        response = requests.get(url, timeout=10)
         response.raise_for_status()
-
-        releases = response.json()
-        if not releases:
-            print("未找到任何发布版本")
-            return None
-
-        # 只取前5个版本
-        recent_releases = releases[:5]
-
-        resource_list = []
-        print("\n可用的版本：")
-        for idx, release in enumerate(recent_releases):
-            version = release['tag_name']
-            print(f"{idx}. {version}")
-            # 收集该版本的资源
-            assets = release.get("assets", [])
-            asset_list = []
-            for asset_idx, asset in enumerate(assets):
-                size_mb = asset['size'] / (1024 * 1024)
-                asset_list.append({
-                    "index": asset_idx,
-                    "name": asset['name'],
-                    "url": asset['browser_download_url'],
-                    "size": asset['size'],
-                    "size_mb": size_mb
-                })
-            resource_list.append({
-                "version": version,
-                "assets": asset_list
-            })
-
-        return resource_list
-
+        releases = response.json()[:5]
     except requests.exceptions.RequestException as e:
         print(f"获取发布信息失败: {str(e)}")
         return None
-    except (KeyError, IndexError, TypeError) as e:
-        print(f"解析数据出错: {str(e)}")
+
+    if not releases:
+        print("未找到任何发布版本")
         return None
+
+    resource_list = []
+    print("\n可用的版本：")
+    for idx, release in enumerate(releases):
+        version = release['tag_name']
+        print(f"{idx}. {version}")
+        assets = release.get("assets", [])
+        asset_list = [
+            {
+                "index": i,
+                "name": asset['name'],
+                "url": asset['browser_download_url'],
+                "size": asset['size'],
+                "size_mb": asset['size'] / (1024 * 1024)
+            } for i, asset in enumerate(assets)
+        ]
+        resource_list.append({"version": version, "assets": asset_list})
+
+    return resource_list
 
 
 def select_download_resource(resource_list, auto=False):
-    """选择下载资源（先选版本，再选资源）"""
+    """
+    选择下载资源
+
+    1. 如果 `auto` 是 True，我们将自动选择最新的版本
+    2. 如果 `auto` 是 False，我们将手动选择版本
+       1. 显示所有可用的版本
+       2. 用户选择一个版本
+       3. 显示该版本的所有可用的资源
+       4. 用户选择一个资源
+
+    Args:
+        resource_list (list): 一个包含 Release 信息的列表
+        auto (bool, optional): 是否自动选择最新的版本. Defaults to False.
+
+    Returns:
+        str: 下载资源的 URL，如果用户取消，将返回 False
+    """
     if not resource_list:
         print("没有可用的下载资源")
         return None
 
     # 自动模式：使用最新版本
     if auto:
+        # resource_list[0] 是最新的版本
         latest_release = resource_list[0]
         assets = latest_release['assets']
         combo_key = get_local_platform()
@@ -241,7 +258,7 @@ def select_download_resource(resource_list, auto=False):
         try:
             choice = input("\n请输入版本编号 (输入 'q' 退出): ")
             if choice.lower() == 'q':
-                return False
+                return None
 
             version_idx = int(choice)
             if 0 <= version_idx < len(resource_list):
@@ -250,10 +267,9 @@ def select_download_resource(resource_list, auto=False):
 
                 # 显示该版本的资源
                 assets = selected_release['assets']
-                # print(assets)
                 if not assets:
                     print("该版本没有可用的资源")
-                    return False
+                    return None
 
                 print("\n可用的资源：")
                 for idx, asset in enumerate(assets):
@@ -374,33 +390,31 @@ def delete_file(filename):
 
 
 def main(is_debug=False, is_delete=True):
-    if is_debug:
-        print("处于调试模式，将无视版本进行下载")
-
     print("正在获取最新版本信息", end=":\t")
     download_options = get_github_download_options()
     if download_options is None:
         print("网络错误或者手动退出,无法更新")
         return None
 
-    auto_update = input("\n输入n或者N并且按回车\n关闭自动选择更新包功能\n")
-    if auto_update in ["N", "n"]:
-        auto_update = False
-    else:
-        auto_update = True
+    auto_update = auto_update_check()
 
     print("正在获取本地版本信息", end=":\n")
     file_ver = get_local_version_from_dll(dll_path)
-    print(f"本地版本:{file_ver}")
+    print(f"当前版本:{file_ver}")
 
     url_ver = select_download_resource(download_options, auto_update)
+    if url_ver is None:
+        print("无法找到最新版本，无法更新")
+        return None
+    print(f"本地版本:{file_ver}")
+    print(f"网络最新版本:{url_ver}")
 
-    print("网络正常，与最新版本信息比较中")
-    if check_version(file_ver, url_ver) is False or is_debug or is_delete is False:
-        print(f"\n当前版本{check_version(file_ver, url_ver)}最新版本\n")
-        url = url_ver
+    # 反转检查结果,为是否最新版本做准备
+    checked_version = not check_version(file_ver, url_ver)
+    if checked_version or is_debug or not is_delete:
+        print("\n当前版本与选中版本不符，需要更新\n")
         print("正在下载文件MaaFramework.zip")
-        download_file(url)
+        download_file(url_ver)
         print("正在解压文件")
         unzip("MaaFramework.zip")
         print("解压完成")
@@ -410,7 +424,13 @@ def main(is_debug=False, is_delete=True):
     if is_debug:
         pass
     elif is_delete:
+        print("正在删除文件MaaFramework.zip")
         delete_file("MaaFramework.zip")
+
+
+def auto_update_check():
+    auto_update = input("\n输入n或者N并且按回车\n关闭自动选择更新包功能\n") in ["N", "n"]
+    return not auto_update
 
 
 print("正在切换工作路径至exe所在路径")
