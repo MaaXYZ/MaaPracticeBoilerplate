@@ -3,7 +3,9 @@
         {
             "fileMatch": [
                 "/assets/resource/**/*.json",
-                "/install/resource/**/*.json"
+                "/install/resource/**/*.json",
+                "/assets/resource/**/*.jsonc",
+                "/install/resource/**/*.jsonc"
             ],
             "url": "/deps/tools/pipeline.schema.json"
         },
