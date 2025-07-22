@@ -17,8 +17,13 @@ body = """
 {% macro print_commit(commit) -%}
     - {% if commit.scope %}*({{ commit.scope }})* {% endif %}\
         {% if commit.breaking %}[**breaking**] {% endif %}\
-        {{ commit.message | upper_first }} \
+        {{ commit.message | split(pat="\n") | first | upper_first }} \
         @{{ author.login | default(value=commit.author.name) }}
+        {%- for footer in commit.footers -%}
+            {%- if footer.token == "Co-authored-by" -%}
+                {%- set co_author_name = footer.value | split(pat=" <") | first | trim %} @{{ co_author_name }}
+            {%- endif -%}
+        {%- endfor %}
 {% endmacro -%}
 
 {% if version %}\
@@ -61,6 +66,10 @@ footer = """
 # 过滤提交
 conventional_commits = true # 使用约定式提交格式
 filter_unconventional = false # 不过滤非约定式提交
+# 启用完整的 commit 信息
+split_commits = false
+# 保留完整的 commit body
+protect_breaking_commits = false
 commit_parsers = [
     { message = "^feat", group = "<!-- 0 -->✨ 新功能" },
     { message = "^fix", group = "<!-- 1 -->🐛 Bug修复" },
