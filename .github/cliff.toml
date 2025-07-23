@@ -18,12 +18,14 @@ body = """
     - {% if commit.scope %}*({{ commit.scope }})* {% endif %}\
         {% if commit.breaking %}[**breaking**] {% endif %}\
         {{ commit.message | split(pat="\n") | first | upper_first }} \
-        @{{ author.login | default(value=commit.author.name) }}
-        {%- for footer in commit.footers -%}
-            {%- if footer.token == "Co-authored-by" -%}
-                {%- set co_author_name = footer.value | split(pat=" <") | first | trim %} @{{ co_author_name }}
-            {%- endif -%}
-        {%- endfor %}
+        @{{ commit.author.name }}
+        {%- if commit.footers -%}
+            {%- for footer in commit.footers -%}
+                {%- if footer.token == "Co-authored-by" -%}
+                    {%- set co_author_name = footer.value | split(pat=" <") | first | trim %} @{{ co_author_name }}
+                {%- endif -%}
+            {%- endfor -%}
+        {%- endif %}
 {% endmacro -%}
 
 {% if version %}\
