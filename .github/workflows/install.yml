@@ -51,7 +51,7 @@ jobs:
 
   install:
     needs: meta
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         os: [win, macos, linux, android]
