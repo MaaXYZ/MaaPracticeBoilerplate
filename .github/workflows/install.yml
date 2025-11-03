@@ -105,6 +105,7 @@ jobs:
       - name: Install
         shell: bash
         run: |
+          python -m pip install -r ./requirements.txt
           python ./install.py ${{ needs.meta.outputs.tag }}
 
           if [[ "${{ matrix.os }}" != "android" ]]; then
@@ -114,6 +115,10 @@ jobs:
               rsync -av --ignore-existing MFA/ install/
             else
               echo "MFA directory not found, skipping copy."
+            fi
+            if [[ "${{ matrix.os }}" == "win" ]]; then
+              mkdir -p install
+              cp -v "tools/DependencySetup_依赖库安装.bat" install/
             fi
           else
             echo "Skipping copy MFA for Android."
