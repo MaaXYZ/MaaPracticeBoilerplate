@@ -1,4 +1,8 @@
+from pathlib import Path
 from maa.resource import Resource
+
+working_dir = Path(__file__).parent
+install_path = working_dir / Path("install")
 
 def validate_resource():
     print("尝试加载资源")
