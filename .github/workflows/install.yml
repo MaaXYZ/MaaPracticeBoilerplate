@@ -83,7 +83,7 @@ jobs:
           out-file-path: "deps"
           extract: true
 
-      - name: Remove MFA runtimes
+      - name: Remove built-in runtime in MFA
         if: matrix.os != 'android'
         shell: bash
         run: |
