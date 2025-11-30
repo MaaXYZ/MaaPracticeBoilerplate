@@ -178,3 +178,15 @@ jobs:
           body: ${{ needs.changelog.outputs.release_body }}
           draft: false
           prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
+
+        # Mirror酱为第三方分发服务，新项目默认关闭
+        # 若有需要请联系 Mirror酱 开通，直接自行开启是无法使用的
+        # https://mirrorchyan.com/
+      - name: Trigger MirrorChyanUploading
+        if: false
+        shell: bash
+        run: |
+          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release.yml -f tag=${{ needs.meta.outputs.tag }}
+          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note.yml -f tag=${{ needs.meta.outputs.tag }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
