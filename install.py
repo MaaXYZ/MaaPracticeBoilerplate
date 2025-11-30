@@ -96,7 +96,7 @@ def install_deps():
     if is_android():
         maafw_dir = install_path 
     else: 
-        maafw_dir = install_path/ "runtimes" / get_dotnet_platform_tag / "native"
+        maafw_dir = install_path/ "runtimes" / get_dotnet_platform_tag() / "native"
     
 
     shutil.copytree(
