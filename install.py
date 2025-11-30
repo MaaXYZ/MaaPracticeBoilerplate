@@ -31,10 +31,7 @@ def is_android():
     if 'android' in release:
         return True
     # 补充：Termux（安卓终端）的特征
-    if 'termux' in release or 'termux' in platform.uname().node:
-        return True
-    return False
-
+    return 'termux' in release or 'termux' in platform.uname().node
 
 def get_dotnet_platform_tag():
     """自动检测当前平台并返回对应的平台标签"""
