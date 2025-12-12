@@ -23,7 +23,7 @@
 
 0. 使用右上角 `Use this template` - `Create a new repository` 来基于本模板创建您自己的项目。
 
-1. 克隆本项目及子项目（地址请修改为您基于本模板创建的新项目地址）。
+1. 克隆本项目（地址请修改为您基于本模板创建的新项目地址）。
 
     ```bash
     git clone https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
@@ -31,11 +31,7 @@
 
 2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中。
 
-3. 下载 OCR（文字识别）资源文件。
-
-    [ppocr_v5.zip](https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v5/ppocr_v5-zh_cn.zip)  
-
-    解压到 assets/resource/model/ocr/ 目录下，确保路径如下：
+3. 下载 OCR（文字识别）资源文件 [ppocr_v5.zip](https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v5/ppocr_v5-zh_cn.zip) 解压到 `assets/resource/model/ocr/` 目录下，确保路径如下：
 
     ```tree
     assets/resource/model/ocr/
