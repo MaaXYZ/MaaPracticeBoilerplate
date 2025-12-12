@@ -31,26 +31,24 @@
 
 2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中。
 
-3. 下载通用资源子模块（MaaCommonAssets）
+3. 下载 OCR（文字识别）资源文件。
 
-    ```bash
-    git submodule update --init --recursive
+    [ppocr_v5.zip](https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v5/ppocr_v5-zh_cn.zip)  
+
+    解压到 assets/resource/model/ocr/ 目录下，确保路径如下：
+
+    ```tree
+    assets/resource/model/ocr/
+    ├── det.onnx
+    ├── keys.txt
+    └── rec.onnx
     ```
 
-    请注意，子模块仓库体积较大，请确认您已经成功下载，否则后续 OCR（文字识别）将报错并无识别结果。  
-    若 git 命令始终无法成功下载，也可尝试前往 [Mirror酱](https://mirrorchyan.com/zh/projects?rid=MaaCommonAssets&source=ghtempl-readme) 手动下载后解压到 `assets/MaaCommonAssets` 文件夹中，目录结构为 `assets/MaaCommonAssets/OCR`。
+    _请注意，您不需要将 OCR 资源文件上传到您的代码仓库中。`.gitignore` 已经忽略了 `assets/resource/model/ocr/` 目录，且 GitHub workflow 在发布版本时会自动配置这些资源文件。_
 
-4. 配置资源文件。
+4. 进行开发工作，按您的业务需求修改 `assets` 中的资源文件，请参考 [MaaFramework 相关文档](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E8%B5%84%E6%BA%90%E5%87%86%E5%A4%87)。
 
-    ```bash
-    python ./configure.py
-    ```
-
-    若报错 `File Not Found: XXXXXX`，则说明上一步 MaaCommonAssets 未正常下载，请再次检查！
-
-5. 进行开发工作，按您的业务需求修改 `assets` 中的资源文件，请参考 [MaaFramework 相关文档](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E8%B5%84%E6%BA%90%E5%87%86%E5%A4%87)。
-
-6. 完成开发后，上传您的代码并发布版本。
+5. 完成开发后，上传您的代码并发布版本。
 
     ```bash
     # 配置 git 信息（仅第一次需要，后续不用再配置）
@@ -63,7 +61,7 @@
     git push origin HEAD -u
     ```
 
-7. 发布您的版本
+6. 发布您的版本
 
     需要**先**修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
@@ -73,7 +71,7 @@
     git push origin v1.0.0
     ```
 
-8. 更多操作，请参考 [个性化配置](./docs/zh_cn/个性化配置.md)（可选）
+7. 更多操作，请参考 [个性化配置](./docs/zh_cn/个性化配置.md)（可选）
 
 ## 生态共建
 

@@ -15,7 +15,7 @@ except ModuleNotFoundError as e:
 from configure import configure_ocr_model
 
 
-working_dir = Path(__file__).parent
+working_dir = Path(__file__).parent.parent.resolve()
 install_path = working_dir / Path("install")
 version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
 
