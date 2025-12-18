@@ -1,7 +1,5 @@
-import os
 from pathlib import Path
 
-import platform
 import shutil
 import sys
 
@@ -21,7 +19,7 @@ working_dir = Path(__file__).parent.parent.resolve()
 install_path = working_dir / Path("install")
 version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
 
-if sys.argv.__len__() < 4:
+if sys.argv.__len__() < 3:
     print("Usage: python install.py <version> <os> <arch>")
     print("Example: python install.py v1.0.0 win x86_64")
     # available parameters:
@@ -30,23 +28,23 @@ if sys.argv.__len__() < 4:
     # arch: [aarch64, x86_64]
     sys.exit(1)
 
+os_name = sys.argv[2]
+arch = sys.argv[3]
+
 
 def get_dotnet_platform_tag():
     """自动检测当前平台并返回对应的dotnet平台标签"""
-    os_type = sys.argv[2]
-    os_arch = sys.argv[3]
-
-    if os_type == "win" and os_arch == "x86_64":
+    if os_name == "win" and arch == "x86_64":
         platform_tag = "win-x64"
-    elif os_type == "win" and os_arch == "aarch64":
+    elif os_name == "win" and arch == "aarch64":
         platform_tag = "win-arm64"
-    elif os_type == "macos" and os_arch == "x86_64":
+    elif os_name == "macos" and arch == "x86_64":
         platform_tag = "osx-x64"
-    elif os_type == "macos" and os_arch == "aarch64":
+    elif os_name == "macos" and arch == "aarch64":
         platform_tag = "osx-arm64"
-    elif os_type == "linux" and os_arch == "x86_64":
+    elif os_name == "linux" and arch == "x86_64":
         platform_tag = "linux-x64"
-    elif os_type == "linux" and os_arch == "aarch64":
+    elif os_name == "linux" and arch == "aarch64":
         platform_tag = "linux-arm64"
     else:
         print("Unsupported OS or architecture.")
@@ -65,7 +63,7 @@ def install_deps():
         print('请先下载 MaaFramework 到 "deps"。')
         sys.exit(1)
 
-    if sys.argv[2] == "android":
+    if os_name == "android":
         shutil.copytree(
             working_dir / "deps" / "bin",
             install_path,

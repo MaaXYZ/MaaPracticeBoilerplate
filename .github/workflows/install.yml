@@ -115,11 +115,7 @@ jobs:
             if [ -d "MFA" ]; then
               echo "Copying MFA files to install directory..."
               mkdir -p install
-              if [[ "${{ matrix.os }}" == "win" ]]; then
-                cp -r MFA/* install/
-              else
-                rsync -av --ignore-existing MFA/ install/
-              fi
+              rsync -av --ignore-existing MFA/ install/
               echo "MFA files copied successfully."
             else
               echo "MFA directory not found, skipping copy."
