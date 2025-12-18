@@ -23,10 +23,6 @@ version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
 if sys.argv.__len__() < 4:
     print("Usage: python install.py <version> <os> <arch>")
     print("Example: python install.py v1.0.0 win x86_64")
-    # available parameters:
-    # version: e.g., v1.0.0
-    # os: [win, macos, linux, android]
-    # arch: [aarch64, x86_64]
     sys.exit(1)
 
 os_name = sys.argv[2]
