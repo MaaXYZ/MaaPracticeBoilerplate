@@ -65,17 +65,24 @@ def install_deps():
         print('请先下载 MaaFramework 到 "deps"。')
         sys.exit(1)
 
-    shutil.copytree(
-        working_dir / "deps" / "bin",
-        install_path / "runtimes" / get_dotnet_platform_tag() / "native",
-        ignore=shutil.ignore_patterns(
-            "*MaaDbgControlUnit*",
-            "*MaaThriftControlUnit*",
-            "*MaaRpc*",
-            "*MaaHttp*",
-        ),
-        dirs_exist_ok=True,
-    )
+    if sys.argv[2] == "android":
+        shutil.copytree(
+            working_dir / "deps" / "bin" / "android",
+            install_path,
+            dirs_exist_ok=True,
+        )
+    else:
+        shutil.copytree(
+            working_dir / "deps" / "bin",
+            install_path / "runtimes" / get_dotnet_platform_tag() / "native",
+            ignore=shutil.ignore_patterns(
+                "*MaaDbgControlUnit*",
+                "*MaaThriftControlUnit*",
+                "*MaaRpc*",
+                "*MaaHttp*",
+            ),
+            dirs_exist_ok=True,
+        )
 
     shutil.copytree(
         working_dir / "deps" / "share" / "MaaAgentBinary",
