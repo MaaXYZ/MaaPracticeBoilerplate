@@ -67,7 +67,7 @@ def install_deps():
 
     if sys.argv[2] == "android":
         shutil.copytree(
-            working_dir / "deps" / "bin" / "android",
+            working_dir / "deps" / "bin",
             install_path,
             dirs_exist_ok=True,
         )
