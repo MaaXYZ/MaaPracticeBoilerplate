@@ -111,22 +111,23 @@ jobs:
       - name: Install
         shell: bash
         run: |
-          cd tools/
-          python -m pip install -r ./requirements.txt
-          python ./install.py ${{ needs.meta.outputs.tag }}
-          cd ..
-
           if [[ "${{ matrix.os }}" != "android" ]]; then
             if [ -d "MFA" ]; then
               echo "Copying MFA files to install directory..."
               mkdir -p install
               rsync -av --ignore-existing MFA/ install/
+              echo "MFA files copied successfully."
             else
               echo "MFA directory not found, skipping copy."
             fi
           else
             echo "Skipping copy MFA for Android."
           fi
+
+          cd tools/
+          python -m pip install -r ./requirements.txt
+          python ./install.py ${{ needs.meta.outputs.tag }} ${{ matrix.os }} ${{ matrix.arch }}
+          cd ..
 
       - uses: actions/upload-artifact@v4
         with:
