@@ -116,10 +116,6 @@ jobs:
             else
               echo "MFA directory not found, skipping copy."
             fi
-            if [[ "${{ matrix.os }}" == "win" ]]; then
-              mkdir -p install
-              cp -v "tools/DependencySetup_依赖库安装.bat" install/
-            fi
           else
             echo "Skipping copy MFA for Android."
           fi
