@@ -19,7 +19,8 @@ working_dir = Path(__file__).parent.parent.resolve()
 install_path = working_dir / Path("install")
 version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
 
-if sys.argv.__len__() < 3:
+# the first parameter is self name
+if sys.argv.__len__() < 4:
     print("Usage: python install.py <version> <os> <arch>")
     print("Example: python install.py v1.0.0 win x86_64")
     # available parameters:
