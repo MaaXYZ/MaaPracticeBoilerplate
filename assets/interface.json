@@ -1,7 +1,7 @@
 {
     // 本文件主要定义了通用 UI 的行为和显示内容
     // 可参考文档和示例添加更多您需要的功能
-    // 文档：https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/3.3-ProjectInterfaceV2%E5%8D%8F%E8%AE%AE.md
+    // 文档：https://maafw.xyz/docs/3.3-ProjectInterfaceV2
     // 示例：https://github.com/MaaXYZ/MaaFramework/blob/main/sample/interface.json
     "interface_version": 2,
     "name": "MaaXXX",
@@ -27,13 +27,13 @@
             "type": "Win32",
             "win32": {
                 "class_regex": ".*",
-                "window_regex": "Visual Studio"
-            },
-            // 截图及控制方式，请根据项目实际情况修改
-            // 文档: https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/2.4-%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F%E8%AF%B4%E6%98%8E.md
-            "screencap": "PrintWindow", // 截图方式
-            "mouse": "PostMessageWithCursorPos", // 鼠标控制方式
-            "keyboard": "PostMessageWithCursorPos" // 键盘控制方式
+                "window_regex": "Visual Studio",
+                // 截图及控制方式，请根据项目实际情况修改
+                // 文档: https://maafw.xyz/docs/2.4-ControlMethods
+                "screencap": "PrintWindow", // 截图方式
+                "mouse": "PostMessageWithCursorPos", // 鼠标控制方式
+                "keyboard": "PostMessageWithCursorPos" // 键盘控制方式
+            }
         }
     ],
     "resource": [
@@ -55,7 +55,7 @@
     // "agent": {
     //     "child_exec": "python",
     //     "child_args": [
-    //         "{PROJECT_DIR}/agent/main.py"
+    //         "./agent/main.py"
     //     ]
     // },
     "task": [
