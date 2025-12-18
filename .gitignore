@@ -440,7 +440,10 @@ enc_temp_folder/*
 .nuke/temp/*
 
 # Build
-deps
+deps/*
+!deps/tools/
+deps/tools/*
+!deps/tools/*.schema.json
 build
 install
 
