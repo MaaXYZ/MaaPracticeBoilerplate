@@ -21,61 +21,41 @@ working_dir = Path(__file__).parent.parent.resolve()
 install_path = working_dir / Path("install")
 version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
 
+if sys.argv.__len__() < 4:
+    print("Usage: python install.py <version> <os> <arch>")
+    print("Example: python install.py v1.0.0 win x86_64")
+    # available parameters:
+    # version: e.g., v1.0.0
+    # os: [win, macos, linux, android]
+    # arch: [aarch64, x86_64]
+    sys.exit(1)
 
-# modified from download_deps.py of M9A
+
 def get_dotnet_platform_tag():
     """自动检测当前平台并返回对应的dotnet平台标签"""
+    os_type = sys.argv[2]
+    os_arch = sys.argv[3]
 
-    os_type = platform.system()
-    os_arch = platform.machine()
-
-    print(f"检测到操作系统: {os_type}, 架构: {os_arch}")
-
-    if os_type == "Windows":
-
-        # 在Windows ARM64环境中，platform.machine()可能错误返回AMD64
-        # 我们需要检查处理器标识符来确定真实架构
-        processor_identifier = os.environ.get("PROCESSOR_IDENTIFIER", "")
-
-        # 检查是否为ARM64处理器
-        if "ARMv8" in processor_identifier or "ARM64" in processor_identifier:
-            print(f"检测到ARM64处理器: {processor_identifier}")
-            os_arch = "ARM64"
-
-        # 映射platform.machine()到dotnet的平台标签
-        arch_mapping = {
-            "AMD64": "win-x64",
-            "x86_64": "win-x64",
-            "ARM64": "win-arm64",
-            "aarch64": "win-arm64",
-        }
-
-        platform_tag = arch_mapping.get(os_arch, f"win-{os_arch.lower()}")
-
-    elif os_type == "Darwin":  # macOS
-        # 映射platform.machine()到dotnet的平台标签
-        arch_mapping = {
-            "x86_64": "osx-x64",
-            "arm64": "osx-arm64",
-            "aarch64": "osx-arm64",
-        }
-
-        platform_tag = arch_mapping.get(os_arch, f"osx-{os_arch.lower()}")
-
-    elif os_type == "Linux":
-        # 映射platform.machine()到dotnet的平台标签
-        arch_mapping = {
-            "x86_64": "linux-x64",
-            "aarch64": "linux-arm64",
-            "arm64": "linux-arm64",
-        }
-
-        platform_tag = arch_mapping.get(os_arch, f"linux-{os_arch.lower()}")
-
+    if os_type == "win" and os_arch == "x86_64":
+        platform_tag = "win-x64"
+    elif os_type == "win" and os_arch == "aarch64":
+        platform_tag = "win-arm64"
+    elif os_type == "macos" and os_arch == "x86_64":
+        platform_tag = "osx-x64"
+    elif os_type == "macos" and os_arch == "aarch64":
+        platform_tag = "osx-arm64"
+    elif os_type == "linux" and os_arch == "x86_64":
+        platform_tag = "linux-x64"
+    elif os_type == "linux" and os_arch == "aarch64":
+        platform_tag = "linux-arm64"
     else:
-        raise ValueError(f"不支持的操作系统: {os_type}")
+        print("Unsupported OS or architecture.")
+        print("available parameters:")
+        print("version: e.g., v1.0.0")
+        print("os: [win, macos, linux, android]")
+        print("arch: [aarch64, x86_64]")
+        sys.exit(1)
 
-    print(f"使用平台标签: {platform_tag}")
     return platform_tag
 
 

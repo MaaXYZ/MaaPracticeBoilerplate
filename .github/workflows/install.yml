@@ -62,28 +62,11 @@ jobs:
 
   install:
     needs: meta
-    runs-on: ${{ matrix.runner }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - os: win
-            arch: x86_64
-            runner: windows-latest
-          - os: win
-            arch: aarch64
-            runner: windows-11-arm
-          - os: macos
-            arch: x86_64
-            runner: macos-15-intel
-          - os: macos
-            arch: aarch64
-            runner: macos-latest
-          - os: linux
-            arch: x86_64
-            runner: ubuntu-latest
-          - os: linux
-            arch: aarch64
-            runner: ubuntu-24.04-arm
+        os: [win, macos, linux, android]
+        arch: [aarch64, x86_64]
       fail-fast: false
 
     steps:
@@ -147,7 +130,7 @@ jobs:
 
           cd tools/
           python -m pip install -r ./requirements.txt
-          python ./install.py ${{ needs.meta.outputs.tag }}
+          python ./install.py ${{ needs.meta.outputs.tag }} ${{ matrix.os }} ${{ matrix.arch }}
           cd ..
 
       - uses: actions/upload-artifact@v4
