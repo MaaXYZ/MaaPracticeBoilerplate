@@ -40,14 +40,14 @@
         {
             "name": "官服",
             "path": [
-                "{PROJECT_DIR}/resource"
+                "./resource"
             ]
         },
         {
             "name": "B 服",
             "path": [
-                "{PROJECT_DIR}/resource",
-                "{PROJECT_DIR}/resource_bilibili"
+                "./resource",
+                "./resource_bilibili"
             ]
         }
     ],
