@@ -83,12 +83,6 @@ jobs:
           out-file-path: "deps"
           extract: true
 
-      - name: Remove built-in runtime in MFA
-        if: matrix.os != 'android'
-        shell: bash
-        run: |
-          rm -rf MFA/runtimes
-
       - name: Download MFAAvalonia
         if: matrix.os != 'android'
         id: download_mfa
@@ -108,6 +102,12 @@ jobs:
           rm -f "${ARCHIVE_FILE_PATH}"
           echo "Archive cleanup command executed for MFAAvalonia."
 
+      - name: Remove built-in runtime in MFA
+        if: matrix.os != 'android'
+        shell: bash
+        run: |
+          rm -rf MFA/runtimes
+      
       - name: Install
         shell: bash
         run: |
