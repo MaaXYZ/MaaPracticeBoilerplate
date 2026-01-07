@@ -4,5 +4,6 @@
         "davidanson.vscode-markdownlint",
         "ms-python.python",
         "ms-python.black-formatter",
+        "golang.go",
     ]
 }
