@@ -4,6 +4,5 @@
         "davidanson.vscode-markdownlint",
         "ms-python.python",
         "ms-python.black-formatter",
-        "ms-python.vscode-pylance"
     ]
 }
