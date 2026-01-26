@@ -7,9 +7,9 @@ name: mirrorchyan_release
 on:
   workflow_dispatch:
     inputs:
-        tag:
-            default: ''
-            required: false
+      tag:
+        default: ''
+        required: false
 #   release:
 #     types: [released]
 
