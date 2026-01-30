@@ -1,7 +1,9 @@
 {
     "recommendations": [
-        "ms-python.black-formatter",
         "nekosu.maa-support",
-        "davidanson.vscode-markdownlint"
+        "davidanson.vscode-markdownlint",
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "golang.go",
     ]
 }
