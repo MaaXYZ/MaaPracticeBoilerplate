@@ -85,6 +85,7 @@
     ],
     "option": {
         "任务选项1": {
+            "type": "select",
             "cases": [
                 {
                     "name": "文本1",
