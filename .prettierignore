@@ -6,7 +6,7 @@ node_modules/
 assets/MaaCommonAssets
 
 # 跳过 schema 目录，避免与 sync_schema_files 冲突
-tools/schema/
+deps/tools/
 
 # 锁文件
 pnpm-lock.yaml
