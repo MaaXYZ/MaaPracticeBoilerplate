@@ -17,7 +17,7 @@
 ## 即刻开始
 
 - [📄 快速开始](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md)
-- [🎞️ 视频教程](https://www.bilibili.com/video/BV1yr421E7MW)
+- ~~[🎞️ 视频教程](https://www.bilibili.com/video/BV1yr421E7MW)~~ 视频中使用的MaaFramework版本较老，建议以文档为准。
 
 ## 如何开发
 
