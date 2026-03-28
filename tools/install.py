@@ -66,6 +66,11 @@ def install_deps():
             install_path,
             dirs_exist_ok=True,
         )
+        shutil.copytree(
+            working_dir / "deps" / "share" / "MaaAgentBinary",
+            install_path / "MaaAgentBinary",
+            dirs_exist_ok=True,
+        )
     else:
         shutil.copytree(
             working_dir / "deps" / "bin",
@@ -75,15 +80,23 @@ def install_deps():
                 "*MaaThriftControlUnit*",
                 "*MaaRpc*",
                 "*MaaHttp*",
+                "plugins",
+                "*.node",
+                "*MaaPiCli*",
             ),
             dirs_exist_ok=True,
         )
+        shutil.copytree(
+            working_dir / "deps" / "share" / "MaaAgentBinary",
+            install_path / "libs" / "MaaAgentBinary",
+            dirs_exist_ok=True,
+        )
+        shutil.copytree(
+            working_dir / "deps" / "bin" / "plugins",
+            install_path / "plugins" / get_dotnet_platform_tag(),
+            dirs_exist_ok=True,
+        )
 
-    shutil.copytree(
-        working_dir / "deps" / "share" / "MaaAgentBinary",
-        install_path / "MaaAgentBinary",
-        dirs_exist_ok=True,
-    )
 
 
 def install_resource():

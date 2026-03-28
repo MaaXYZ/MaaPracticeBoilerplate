@@ -19,18 +19,31 @@ on:
 
 jobs:
   resource:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # pip install maafw
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run maa-checker
+        run: |
+          npx @nekosu/maa-checker@latest ./assets/interface.json --github=.
+
       - name: Install maafw
         run: |
-            python -m pip install --upgrade pip
-            python -m pip install --upgrade maafw --pre
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade maafw --pre
 
       - name: Check Resource
         run: |
-            python ./check_resource.py ./assets/resource/
+          python ./check_resource.py ./assets/resource/
+
+      - name: Validate JSON Schema
+        run: |
+          python -m pip install jsonschema==4.26.0 referencing==0.37.0
+          python tools/validate_schema.py --schema-dir deps/tools --resource-dirs assets/resource --exclude-dirs assets/resource/announcement --interface-files assets/interface.json
