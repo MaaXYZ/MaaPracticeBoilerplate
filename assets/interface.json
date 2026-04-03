@@ -46,7 +46,7 @@
         {
             "name": "B 服",
             "path": [
-                "./resource",
+                "./resource"
                 // "./resource_bilibili"
             ]
         }
