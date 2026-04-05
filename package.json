@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@nekosu/maa-tools": "1.0.23",
     "prettier-plugin-multiline-arrays": "^3.0.6"
   }
 }

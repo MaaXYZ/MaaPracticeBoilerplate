@@ -17,13 +17,15 @@
             "$comment": "若要使用该拓展模式，请在下面文件中编写，编写方法类似 ActionV2",
             "$ref": "./custom.action.schema.json"
         },
-        "$comments": [
-            "如何编写 pipeline schema",
-            "1. 添加属性字段需要给出 title 、 description 、 $ref ， $ref 优先使用或新增基础类型，能不写就不要写 default 。",
-            "2. 基础类型以 json 开头，需要给出 default 。",
-            "3. 专有类型如 SwipeListItem ，需要给出 unevaluatedProperties 。",
-            "4. 属性类型如果有 required ，请在 V2 中加入 TypeWithDependent 。"
-        ],
+        "$comments": {
+            "如何编写 pipeline schema": [
+                "1. 添加属性字段需要给出 title 、 description 、 $ref，",
+                "   $ref 优先使用或新增基础类型，如果属性字段的默认值与基础类型相同，则不要写 default 。",
+                "2. 基础类型以 json 开头，需要给出 default 。",
+                "3. 专有类型如 SwipeListItem ，需要给出 unevaluatedProperties 。",
+                "4. 属性类型如果有 required ，请在 V2 中加入 TypeWithDependent 。"
+            ]
+        },
         "jsonCode": {
             "patternProperties": {
                 ".*_code$|^code$": {
@@ -35,7 +37,7 @@
         },
         "jsonDocument": {
             "patternProperties": {
-                ".*_doc$|^doc$": {
+                ".*_doc$|^doc$|.*_desc$|^desc$": {
                     "title": "Document Property",
                     "description": "文档 | 该节点属性的文档说明。",
                     "type": "string",
@@ -305,6 +307,23 @@
             ],
             "default": []
         },
+        "jsonStringOrListOrMap": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/$defs/jsonStringList"
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "default": {}
+        },
         "NodeAttr": {
             "type": "object",
             "properties": {
@@ -444,6 +463,47 @@
                 0
             ]
         },
+        "jsonRectList": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/jsonRect"
+            },
+            "default": []
+        },
+        "jsonRectOrList": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/jsonRect"
+                },
+                {
+                    "$ref": "#/$defs/jsonRectList"
+                }
+            ],
+            "default": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "jsonUInt32List": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/jsonUInt32"
+            },
+            "default": []
+        },
+        "jsonUInt32OrList": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/jsonUInt32"
+                },
+                {
+                    "$ref": "#/$defs/jsonUInt32List"
+                }
+            ],
+            "default": 0
+        },
         "jsonPoint": {
             "type": "array",
             "items": {
@@ -505,9 +565,6 @@
             "default": true
         },
         "TypeWithDependent": {
-            "properties": {
-                "type": "string"
-            },
             "anyOf": [
                 {
                     "required": [
@@ -523,7 +580,20 @@
         },
         "DirectHit": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "roi": {
+                    "title": "ROI Property",
+                    "description": "识别区域坐标。可选，默认 [0, 0, 0, 0] ，即全屏。",
+                    "$ref": "#/$defs/jsonRoi",
+                    "markdownDescription": "*array<int, 4>* | *string*\n\n识别区域坐标。可选，默认 [0, 0, 0, 0] ，即全屏。\n\n- *array<int, 4>*: 识别区域坐标，[x, y, w, h]，若希望全屏可设为 [0, 0, 0, 0] 。\n\n- *string*: 填写节点名，在之前执行过的某节点识别到的目标范围内识别。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为识别失败。"
+                },
+                "roi_offset": {
+                    "title": "ROI Offset Property",
+                    "description": "在 `roi` 的基础上额外移动再作为范围，四个值分别相加。可选，默认 [0, 0, 0, 0] 。",
+                    "$ref": "#/$defs/jsonRect",
+                    "markdownDescription": "*array<int, 4>*\n\n在 `roi` 的基础上额外移动再作为范围，四个值分别相加。可选，默认 [0, 0, 0, 0] 。"
+                }
+            }
         },
         "DirectHitV1": {
             "properties": {
@@ -557,7 +627,7 @@
                     "title": "ROI Property",
                     "description": "识别区域坐标。可选，默认 [0, 0, 0, 0] ，即全屏。",
                     "$ref": "#/$defs/jsonRoi",
-                    "markdownDescription": "*array<int, 4>* | *string*\n\n识别区域坐标。可选，默认 [0, 0, 0, 0] ，即全屏。\n\n- *array<int, 4>*: 识别区域坐标，[x, y, w, h]，若希望全屏可设为 [0, 0, 0, 0] 。\n\n- *string*: 填写节点名，在之前执行过的某节点识别到的目标范围内识别。"
+                    "markdownDescription": "*array<int, 4>* | *string*\n\n识别区域坐标。可选，默认 [0, 0, 0, 0] ，即全屏。\n\n- *array<int, 4>*: 识别区域坐标，[x, y, w, h]，若希望全屏可设为 [0, 0, 0, 0] 。\n\n- *string*: 填写节点名，在之前执行过的某节点识别到的目标范围内识别。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为识别失败。"
                 },
                 "roi_offset": {
                     "title": "ROI Offset Property",
@@ -941,9 +1011,9 @@
                 },
                 "expected": {
                     "title": "Expected Property",
-                    "description": "期望的结果，支持正则。必选。",
+                    "description": "期望的结果，支持正则。可选，默认匹配所有结果。",
                     "$ref": "#/$defs/jsonRegexOrList",
-                    "markdownDescription": "*string* | *list<string, >*\n\n期望的结果，支持正则。必选。"
+                    "markdownDescription": "*string* | *list<string, >*\n\n期望的结果，支持正则。可选，默认匹配所有结果。"
                 },
                 "threshold": {
                     "title": "Threshold Property",
@@ -989,20 +1059,14 @@
                     "description": "模型 **文件夹** 路径。使用 `model/ocr` 文件夹的相对路径。可选，默认为空。",
                     "type": "string",
                     "markdownDescription": "*string*\n\n模型 **文件夹** 路径。使用 `model/ocr` 文件夹的相对路径。可选，默认为空。\n\n若为空，则为 `model/ocr` 根目录下的模型文件。\n\n文件夹中需要包含 `rec.onnx`, `det.onnx`, `keys.txt` 三个文件。"
-                }
-            },
-            "anyOf": [
-                {
-                    "required": [
-                        "expected"
-                    ]
                 },
-                {
-                    "required": [
-                        "expected_code"
-                    ]
+                "color_filter": {
+                    "title": "Color Filter Property",
+                    "description": "颜色过滤。填写某个 ColorMatch 节点名，先使用该节点的颜色参数对图像进行二值化，再送入 OCR 识别。可选，默认为空。",
+                    "type": "string",
+                    "markdownDescription": "*string*\n\n颜色过滤。填写某个 `ColorMatch` 节点名，先使用该节点的颜色参数（`method`、`lower`、`upper`）对图像进行二值化，再送入 OCR 识别。可选，默认为空。\n\n仅使用该节点的颜色二值化逻辑，不依赖其 `count`、`order_by` 等结果参数。\n\n设置了该字段的 OCR 节点不参与 batch 优化。"
                 }
-            ]
+            }
         },
         "OcrV1": {
             "properties": {
@@ -1062,9 +1126,9 @@
                 },
                 "expected": {
                     "title": "Expected Property",
-                    "description": "期望的分类下标。必选。",
+                    "description": "期望的分类下标。可选，默认匹配所有结果。",
                     "$ref": "#/$defs/jsonInt32OrList",
-                    "markdownDescription": "*int* | *list<int, >*\n\n期望的分类下标。必选。"
+                    "markdownDescription": "*int* | *list<int, >*\n\n期望的分类下标。可选，默认匹配所有结果。"
                 },
                 "order_by": {
                     "title": "Order By Property",
@@ -1089,26 +1153,12 @@
             "anyOf": [
                 {
                     "required": [
-                        "model",
-                        "expected"
+                        "model"
                     ]
                 },
                 {
                     "required": [
-                        "model_code",
-                        "expected_code"
-                    ]
-                },
-                {
-                    "required": [
-                        "model_code",
-                        "expected"
-                    ]
-                },
-                {
-                    "required": [
-                        "model",
-                        "expected_code"
+                        "model_code"
                     ]
                 }
             ]
@@ -1167,13 +1217,13 @@
                     "title": "Model Property",
                     "description": "模型文件路径。使用 `model/detect` 文件夹的相对路径。必选。",
                     "type": "string",
-                    "markdownDescription": "*string*\n\n模型文件路径。使用 `model/detect` 文件夹的相对路径。必选。\n\n目前支持 YoloV8 ONNX 模型，其他同样输入输出的 Yolo 模型理论上也可以支持，但未经测试。\n\n训练参考 [NNDetect 食谱](https://github.com/MaaXYZ/MaaNeuralNetworkCookbook/tree/main/NeuralNetworkDetect)。"
+                    "markdownDescription": "*string*\n\n模型文件路径。使用 `model/detect` 文件夹的相对路径。必选。\n\n目前支持由 YOLOv8 和 YOLOv11 导出的 ONNX 格式的模型，其他同样输入输出的 Yolo 模型理论上也可以支持，但未经测试。\n\n训练参考 [NNDetect 食谱](https://github.com/MaaXYZ/MaaNeuralNetworkCookbook/tree/main/NeuralNetworkDetect)。"
                 },
                 "expected": {
                     "title": "Expected Property",
-                    "description": "期望的分类下标。必选。",
+                    "description": "期望的分类下标。可选，默认匹配所有结果。",
                     "$ref": "#/$defs/jsonInt32OrList",
-                    "markdownDescription": "*int* | *list<int, >*\n\n期望的分类下标。"
+                    "markdownDescription": "*int* | *list<int, >*\n\n期望的分类下标。可选，默认匹配所有结果。"
                 },
                 "threshold": {
                     "title": "Threshold Property",
@@ -1206,26 +1256,12 @@
             "anyOf": [
                 {
                     "required": [
-                        "model",
-                        "expected"
+                        "model"
                     ]
                 },
                 {
                     "required": [
-                        "model_code",
-                        "expected_code"
-                    ]
-                },
-                {
-                    "required": [
-                        "model_code",
-                        "expected"
-                    ]
-                },
-                {
-                    "required": [
-                        "model",
-                        "expected_code"
+                        "model_code"
                     ]
                 }
             ]
@@ -1252,6 +1288,138 @@
                     "allOf": [
                         {
                             "$ref": "#/$defs/NeuralNetworkDetect"
+                        },
+                        {
+                            "$ref": "#/$defs/jsonComments"
+                        }
+                    ]
+                }
+            },
+            "dependentSchemas": {
+                "type": {
+                    "$ref": "#/$defs/TypeWithDependent"
+                }
+            }
+        },
+        "SubRecognitionInline": {
+            "type": "object",
+            "properties": {
+                "sub_name": {
+                    "title": "Sub Name Property",
+                    "description": "子识别别名。可选。后续子识别可通过 `roi: sub_name` 引用之前子识别的 `filtered` 作为 ROI；同名以最后一个为准；仅当前节点内有效。（仅支持 `And`）",
+                    "type": "string",
+                    "markdownDescription": "*string*\n\n子识别别名。可选。\n\n后续子识别可通过 `roi: sub_name` 引用之前子识别的 `filtered` 作为 ROI；同名以最后一个为准；仅当前节点内有效。（仅支持 `And`）"
+                }
+            }
+        },
+        "SubRecognition": {
+            "anyOf": [
+                {
+                    "type": "string",
+                    "description": "节点名称引用。运行时使用该节点的识别算法和参数。"
+                },
+                {
+                    "$ref": "#/$defs/SubRecognitionInline"
+                }
+            ]
+        },
+        "And": {
+            "type": "object",
+            "properties": {
+                "all_of": {
+                    "title": "All Of Property",
+                    "description": "子识别列表。所有子识别都命中才算成功。必选。支持节点名称引用或内联定义。",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/SubRecognition"
+                    },
+                    "markdownDescription": "*list<string | object, >*\n\n子识别列表。所有子识别都命中才算成功。必选。\n\n列表元素可以是：\n- 字符串：节点名称引用，运行时使用该节点的识别算法和参数\n- 对象：内联识别定义，写法与普通节点的 `recognition` 一致（兼容 v1/v2，允许混用）"
+                },
+                "box_index": {
+                    "title": "Box Index Property",
+                    "description": "指定输出哪个子识别的识别框（box）作为当前节点的识别框。可选，默认 0。",
+                    "$ref": "#/$defs/jsonNInt32",
+                    "markdownDescription": "*int*\n\n指定输出哪个子识别的识别框（box）作为当前节点的识别框。可选，默认 0 。\n\n需要满足 `0 <= box_index < all_of.size` 。"
+                }
+            },
+            "required": [
+                "all_of"
+            ]
+        },
+        "AndV1": {
+            "properties": {
+                "recognition": {
+                    "const": "And"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/$defs/And"
+                }
+            ]
+        },
+        "AndV2": {
+            "properties": {
+                "type": {
+                    "const": "And"
+                },
+                "param": {
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/And"
+                        },
+                        {
+                            "$ref": "#/$defs/jsonComments"
+                        }
+                    ]
+                }
+            },
+            "dependentSchemas": {
+                "type": {
+                    "$ref": "#/$defs/TypeWithDependent"
+                }
+            }
+        },
+        "Or": {
+            "type": "object",
+            "properties": {
+                "any_of": {
+                    "title": "Any Of Property",
+                    "description": "子识别列表。命中第一个即成功，后续不再识别。必选。支持节点名称引用或内联定义。",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/SubRecognition"
+                    },
+                    "markdownDescription": "*list<string | object, >*\n\n子识别列表。命中第一个即成功，后续不再识别。必选。\n\n列表元素可以是：\n- 字符串：节点名称引用，运行时使用该节点的识别算法和参数\n- 对象：内联识别定义，写法与普通节点的 `recognition` 一致（兼容 v1/v2，允许混用）"
+                }
+            },
+            "required": [
+                "any_of"
+            ]
+        },
+        "OrV1": {
+            "properties": {
+                "recognition": {
+                    "const": "Or"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/$defs/Or"
+                }
+            ]
+        },
+        "OrV2": {
+            "properties": {
+                "type": {
+                    "const": "Or"
+                },
+                "param": {
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/Or"
                         },
                         {
                             "$ref": "#/$defs/jsonComments"
@@ -1382,6 +1550,8 @@
                 "OCR",
                 "NeuralNetworkClassify",
                 "NeuralNetworkDetect",
+                "And",
+                "Or",
                 "Custom"
             ]
         },
@@ -1710,6 +1880,32 @@
                     }
                 },
                 {
+                    "label": "AndV1",
+                    "body": "^ \"And\",\n\"all_of\": []"
+                },
+                {
+                    "label": "AndV2",
+                    "body": {
+                        "type": "And",
+                        "param": {
+                            "all_of": []
+                        }
+                    }
+                },
+                {
+                    "label": "OrV1",
+                    "body": "^ \"Or\",\n\"any_of\": []"
+                },
+                {
+                    "label": "OrV2",
+                    "body": {
+                        "type": "Or",
+                        "param": {
+                            "any_of": []
+                        }
+                    }
+                },
+                {
                     "label": "CustomRecognitionV1",
                     "body": "^ \"Custom\",\n\"custom_recognition\": \"\""
                 },
@@ -1754,6 +1950,12 @@
                 },
                 {
                     "$ref": "#/$defs/NeuralNetworkDetectV1"
+                },
+                {
+                    "$ref": "#/$defs/AndV1"
+                },
+                {
+                    "$ref": "#/$defs/OrV1"
                 },
                 {
                     "$ref": "#/$defs/CustomRecognitionV1"
@@ -1802,6 +2004,12 @@
                         },
                         {
                             "$ref": "#/$defs/NeuralNetworkDetectV2"
+                        },
+                        {
+                            "$ref": "#/$defs/AndV2"
+                        },
+                        {
+                            "$ref": "#/$defs/OrV2"
                         },
                         {
                             "$ref": "#/$defs/CustomRecognitionV2"
@@ -1885,7 +2093,7 @@
                     "title": "Target Property",
                     "description": "点击目标的位置。可选，默认 true 。",
                     "$ref": "#/$defs/jsonTarget",
-                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n点击目标的位置。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
+                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n点击目标的位置。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为动作失败。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
                 },
                 "target_offset": {
                     "title": "Target Offset Property",
@@ -1899,6 +2107,13 @@
                     "$ref": "#/$defs/jsonUInt32",
                     "markdownDescription": "*uint*\n\n触点编号，用于区分不同的触控点。可选，默认 0 。\n\n- Adb 控制器：表示手指编号（0 为第一根手指，1 为第二根手指，以此类推）\n- Win32 控制器：表示鼠标按键编号（0 为左键，1 为右键，2 为中键，3 为 XBUTTON1，4 为 XBUTTON2）",
                     "default": 0
+                },
+                "pressure": {
+                    "title": "Pressure Property",
+                    "description": "触点力度。可选，默认 1 。",
+                    "$ref": "#/$defs/jsonInt32",
+                    "markdownDescription": "*int*\n\n触点力度。可选，默认 1 。",
+                    "default": 1
                 }
             }
         },
@@ -1939,7 +2154,7 @@
                     "title": "Target Property",
                     "description": "长按目标的位置。可选，默认 true 。",
                     "$ref": "#/$defs/jsonTarget",
-                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n长按目标的位置。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
+                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n长按目标的位置。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为动作失败。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
                 },
                 "target_offset": {
                     "title": "Target Offset Property",
@@ -1960,6 +2175,13 @@
                     "$ref": "#/$defs/jsonUInt32",
                     "markdownDescription": "*uint*\n\n触点编号，用于区分不同的触控点。可选，默认 0 。\n\n- Adb 控制器：表示手指编号（0 为第一根手指，1 为第二根手指，以此类推）\n- Win32 控制器：表示鼠标按键编号（0 为左键，1 为右键，2 为中键，3 为 XBUTTON1，4 为 XBUTTON2）",
                     "default": 0
+                },
+                "pressure": {
+                    "title": "Pressure Property",
+                    "description": "触点力度。可选，默认 1 。",
+                    "$ref": "#/$defs/jsonInt32",
+                    "markdownDescription": "*int*\n\n触点力度。可选，默认 1 。",
+                    "default": 1
                 }
             }
         },
@@ -2000,7 +2222,7 @@
                     "title": "Begin Property",
                     "description": "滑动起点。可选，默认 true 。",
                     "$ref": "#/$defs/jsonTarget",
-                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n滑动起点。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
+                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n滑动起点。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为动作失败。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
                 },
                 "begin_offset": {
                     "title": "Begin Offset Property",
@@ -2012,20 +2234,33 @@
                     "title": "End Property",
                     "description": "滑动终点。可选，默认 true 。",
                     "$ref": "#/$defs/jsonTargetOrList",
-                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>* | *list<true | string | array<int, 2> | array<int, 4>>*\n\n滑动终点。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。\n\n- *list<...>*: v4.5.x 版本新增支持，可配置滑动途径点，列表内各项不抬手连续滑动。"
+                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>* | *list<true | string | array<int, 2> | array<int, 4>>*\n\n滑动终点。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为动作失败。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。\n\n- *list<...>*: v4.5.x 版本新增支持，可配置滑动途径点，列表内各项不抬手连续滑动。"
                 },
                 "end_offset": {
                     "title": "End Offset Property",
                     "description": "在 `end` 的基础上额外移动再作为终点，四个值分别相加。可选，默认 [0, 0, 0, 0] 。",
-                    "$ref": "#/$defs/jsonRect",
-                    "markdownDescription": "*array<int, 4>*\n\n在 `end` 的基础上额外移动再作为终点，四个值分别相加。可选，默认 [0, 0, 0, 0] 。"
+                    "$ref": "#/$defs/jsonRectOrList",
+                    "markdownDescription": "*array<int, 4>* | *list<array<int, 4>>*\n\n在 `end` 的基础上额外移动再作为终点，四个值分别相加。可选，默认 [0, 0, 0, 0] 。"
                 },
                 "duration": {
                     "title": "Duration Property",
                     "description": "滑动持续时间，单位毫秒。可选，默认 200 。",
-                    "$ref": "#/$defs/jsonUInt32",
-                    "markdownDescription": "*uint*\n\n滑动持续时间，单位毫秒。可选，默认 200 。",
+                    "$ref": "#/$defs/jsonUInt32OrList",
+                    "markdownDescription": "*uint* | *list<uint,>*\n\n滑动持续时间，单位毫秒。可选，默认 200 。",
                     "default": 200
+                },
+                "end_hold": {
+                    "title": "End Hold Property",
+                    "description": "滑动到终点后，额外等待一定时间再抬起，单位 ms。可选，默认 0。",
+                    "$ref": "#/$defs/jsonUInt32OrList",
+                    "markdownDescription": "*uint* | *list<uint,>*\n\n滑动到终点后，额外等待一定时间再抬起，单位 ms。可选，默认 0。",
+                    "default": 0
+                },
+                "only_hover": {
+                    "title": "Only Hover Property",
+                    "description": "仅鼠标悬停移动，无按下/抬起动作。可选，默认 false。",
+                    "$ref": "#/$defs/jsonBooleanFalse",
+                    "markdownDescription": "*bool*\n\n仅鼠标悬停移动，无按下/抬起动作。可选，默认 false。"
                 },
                 "contact": {
                     "title": "Contact Property",
@@ -2033,6 +2268,13 @@
                     "$ref": "#/$defs/jsonUInt32",
                     "markdownDescription": "*uint*\n\n触点编号，用于区分不同的触控点。可选，默认 0 。\n\n- Adb 控制器：表示手指编号（0 为第一根手指，1 为第二根手指，以此类推）\n- Win32 控制器：表示鼠标按键编号（0 为左键，1 为右键，2 为中键，3 为 XBUTTON1，4 为 XBUTTON2）",
                     "default": 0
+                },
+                "pressure": {
+                    "title": "Pressure Property",
+                    "description": "触点力度。可选，默认 1 。",
+                    "$ref": "#/$defs/jsonInt32",
+                    "markdownDescription": "*int*\n\n触点力度。可选，默认 1 。",
+                    "default": 1
                 }
             }
         },
@@ -2165,7 +2407,7 @@
                     "title": "Target Property",
                     "description": "触控目标的位置。可选，默认 true 。",
                     "$ref": "#/$defs/jsonTarget",
-                    "markdownDescription": "*true* | *string* | *array<int, 4>*\n\n触控目标的位置。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。\n\n- *array<int, 4>*: 目标为固定坐标区域内随机一点，[x, y, w, h]，若希望全屏可设为 [0, 0, 0, 0] 。"
+                    "markdownDescription": "*true* | *string* | *array<int, 4>*\n\n触控目标的位置。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为动作失败。\n\n- *array<int, 4>*: 目标为固定坐标区域内随机一点，[x, y, w, h]，若希望全屏可设为 [0, 0, 0, 0] 。"
                 },
                 "target_offset": {
                     "title": "Target Offset Property",
@@ -2287,6 +2529,18 @@
         "Scroll": {
             "type": "object",
             "properties": {
+                "target": {
+                    "title": "Target Property",
+                    "description": "滚动目标的位置，鼠标会先移动到该位置再进行滚动。可选，默认 true 。",
+                    "$ref": "#/$defs/jsonTarget",
+                    "markdownDescription": "*true* | *string* | *array<int, 4>*\n\n滚动目标的位置，鼠标会先移动到该位置再进行滚动。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为动作失败。\n\n- *array<int, 4>*: 目标为固定坐标区域内随机一点，[x, y, w, h]，若希望全屏可设为 [0, 0, 0, 0] 。"
+                },
+                "target_offset": {
+                    "title": "Target Offset Property",
+                    "description": "在 `target` 的基础上额外移动再作为滚动目标，四个值分别相加。可选，默认 [0, 0, 0, 0] 。",
+                    "$ref": "#/$defs/jsonRect",
+                    "markdownDescription": "*array<int, 4>*\n\n在 `target` 的基础上额外移动再作为滚动目标，四个值分别相加。可选，默认 [0, 0, 0, 0] 。"
+                },
                 "dx": {
                     "title": "Scroll Dx Property",
                     "description": "水平滚动距离，正值向右滚动，负值向左滚动。可选，默认 0。建议使用 120 的整数倍（WHEEL_DELTA）。",
@@ -2296,10 +2550,10 @@
                 },
                 "dy": {
                     "title": "Scroll Dy Property",
-                    "description": "垂直滚动距离，正值向下滚动，负值向上滚动。可选，默认 0。建议使用 120 的整数倍（WHEEL_DELTA）。",
+                    "description": "垂直滚动距离，正值向上滚动，负值向下滚动。可选，默认 0。建议使用 120 的整数倍（WHEEL_DELTA）。",
                     "type": "integer",
                     "default": 0,
-                    "markdownDescription": "*int*\n\n垂直滚动距离，正值向下滚动，负值向上滚动。可选，默认 0。\n\n建议使用 120 的整数倍（WHEEL_DELTA）以获得最佳兼容性。"
+                    "markdownDescription": "*int*\n\n垂直滚动距离，正值向上滚动，负值向下滚动。可选，默认 0。\n\n建议使用 120 的整数倍（WHEEL_DELTA）以获得最佳兼容性。"
                 }
             }
         },
@@ -2871,12 +3125,12 @@
                     "type": "string",
                     "markdownDescription": "*string*\n\n要执行的 shell 命令。必选。\n\n例如 `getprop ro.build.version.sdk` 或 `settings put global animator_duration_scale 0`。\n\n> 注意：此动作仅对 ADB 控制器有效。"
                 },
-                "timeout": {
-                    "title": "Timeout Property",
-                    "description": "超时时间（毫秒）。可选，默认 20000 (20秒)。",
+                "shell_timeout": {
+                    "title": "Shell Timeout Property",
+                    "description": "超时时间（毫秒）。可选，默认 20000 (20秒)。设置为 -1 表示无限等待。",
                     "type": "integer",
                     "default": 20000,
-                    "markdownDescription": "*int*\n\n超时时间（毫秒）。可选，默认 20000 (20秒)。"
+                    "markdownDescription": "*int*\n\n超时时间（毫秒）。可选，默认 20000 (20秒)。\n\n设置为 -1 表示无限等待，永不超时。"
                 }
             },
             "required": [
@@ -2918,6 +3172,64 @@
                 }
             }
         },
+        "Screencap": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "title": "Filename Property",
+                    "description": "保存截图的文件名（不含扩展名）。可选，默认使用 \"时间戳_节点名\" 格式。",
+                    "type": "string",
+                    "markdownDescription": "*string*\n\n保存截图的文件名（不含扩展名）。可选，默认使用 `时间戳_节点名` 格式。\n\n截图保存在 `log_dir/screencap/` 目录下。"
+                },
+                "format": {
+                    "title": "Format Property",
+                    "description": "图片格式。可选，默认 \"png\"。",
+                    "type": "string",
+                    "enum": ["png", "jpg", "jpeg"],
+                    "default": "png",
+                    "markdownDescription": "*string*\n\n图片格式。可选，默认 `\"png\"`（无损）。\n\n可选值：`\"png\"` | `\"jpg\"` | `\"jpeg\"`"
+                },
+                "quality": {
+                    "title": "Quality Property",
+                    "description": "图片质量，仅对 jpg/jpeg 有效。可选，默认 100。",
+                    "type": "integer",
+                    "default": 100,
+                    "minimum": 0,
+                    "maximum": 100,
+                    "markdownDescription": "*int*\n\n图片质量（0-100），仅对 `jpg` / `jpeg` 格式有效。可选，默认 100。\n\n`png` 格式始终为无损压缩，此字段无效。"
+                }
+            }
+        },
+        "ScreencapV1": {
+            "properties": {
+                "action": {
+                    "const": "Screencap"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/$defs/Screencap"
+                }
+            ]
+        },
+        "ScreencapV2": {
+            "properties": {
+                "type": {
+                    "const": "Screencap"
+                },
+                "param": {
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/Screencap"
+                        },
+                        {
+                            "$ref": "#/$defs/jsonComments"
+                        }
+                    ]
+                }
+            }
+        },
         "CustomAction": {
             "type": "object",
             "properties": {
@@ -2925,7 +3237,7 @@
                     "title": "Target Property",
                     "description": "目标的位置，会通过 `MaaCustomActionCallback`.`box` 传出。可选，默认 true 。",
                     "$ref": "#/$defs/jsonTarget",
-                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n目标的位置，会通过 `MaaCustomActionCallback`.`box` 传出。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
+                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n目标的位置，会通过 `MaaCustomActionCallback`.`box` 传出。可选，默认 true 。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为动作失败。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
                 },
                 "target_offset": {
                     "title": "Target Offset Property",
@@ -3052,6 +3364,8 @@
                 "StopApp",
                 "StopTask",
                 "Command",
+                "Shell",
+                "Screencap",
                 "Custom"
             ]
         },
@@ -3228,6 +3542,27 @@
                     "anyOf": [
                         {
                             "$ref": "#/$defs/CustomAction/properties/custom_action_param"
+                        }
+                    ]
+                },
+                "cmd": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Shell/properties/cmd"
+                        }
+                    ]
+                },
+                "end_hold": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Swipe/properties/end_hold"
+                        }
+                    ]
+                },
+                "only_hover": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Swipe/properties/only_hover"
                         }
                     ]
                 }
@@ -3472,6 +3807,17 @@
                     }
                 },
                 {
+                    "label": "ScreencapV1",
+                    "body": "^ \"Screencap\""
+                },
+                {
+                    "label": "ScreencapV2",
+                    "body": {
+                        "type": "Screencap",
+                        "param": {}
+                    }
+                },
+                {
                     "label": "CustomActionV1",
                     "body": "^ \"Custom\",\n\"custom_action\": \"\""
                 },
@@ -3552,6 +3898,9 @@
                 },
                 {
                     "$ref": "#/$defs/ShellV1"
+                },
+                {
+                    "$ref": "#/$defs/ScreencapV1"
                 },
                 {
                     "$ref": "#/$defs/CustomActionV1"
@@ -3638,6 +3987,9 @@
                             "$ref": "#/$defs/ShellV2"
                         },
                         {
+                            "$ref": "#/$defs/ScreencapV2"
+                        },
+                        {
                             "$ref": "#/$defs/CustomActionV2"
                         }
                     ]
@@ -3696,7 +4048,7 @@
                     "title": "Target Property",
                     "description": "等待目标的位置。可选，默认 true。",
                     "$ref": "#/$defs/jsonTarget",
-                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n等待目标的位置。可选，默认 true。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
+                    "markdownDescription": "*true* | *string* | *array<int, 2>* | *array<int, 4>*\n\n等待目标的位置。可选，默认 true。\n\n- *true*: 目标为本节点中刚刚识别到的位置（即自身）。\n\n- *string*: 填写节点名，目标为之前执行过的某节点识别到的位置。也支持 `[Anchor]锚点名` 格式引用锚点对应的节点。若引用的前置节点或锚点识别结果为空，则视为动作失败。\n\n- *array<int, 2>*: 固定坐标点 [x, y]。\n\n- *array<int, 4>*: 固定坐标区域 [x, y, w, h]，会在矩形内随机选取一点（越靠近中心概率越高，边缘概率相对较低），若希望全屏可设为 [0, 0, 0, 0] 。"
                 },
                 "target_offset": {
                     "title": "Target Offset Property",
@@ -3745,9 +4097,9 @@
                 },
                 "timeout": {
                     "title": "Timeout Property",
-                    "description": "识别超时时间，毫秒。可选，默认 20 * 1000 。",
-                    "$ref": "#/$defs/jsonNInt64",
-                    "markdownDescription": "*uint*\n\n识别超时时间，毫秒。可选，默认 20 * 1000 。",
+                    "description": "识别超时时间，毫秒。可选，默认 20 * 1000 。设置为 -1 表示无限等待。",
+                    "$ref": "#/$defs/jsonInt64",
+                    "markdownDescription": "*int*\n\n识别超时时间，毫秒。可选，默认 20 * 1000 。\n\n设置为 -1 表示无限等待，永不超时。",
                     "default": 20000
                 }
             }
@@ -3828,10 +4180,10 @@
                 },
                 "timeout": {
                     "title": "Timeout Property",
-                    "description": "识别超时时间，毫秒。可选，默认 20 * 1000 。",
-                    "$ref": "#/$defs/jsonNInt64",
+                    "description": "识别超时时间，毫秒。可选，默认 20 * 1000 。设置为 -1 表示无限等待。",
+                    "$ref": "#/$defs/jsonInt64",
                     "default": 20000,
-                    "markdownDescription": "*uint*\n\n识别超时时间，毫秒。可选，默认 20 * 1000 。\n\n具体逻辑为 `while(!timeout) { foreach(next); sleep_until(rate_limit); }` 。"
+                    "markdownDescription": "*int*\n\n识别超时时间，毫秒。可选，默认 20 * 1000 。\n\n设置为 -1 表示无限等待，永不超时。\n\n具体逻辑为 `while(!timeout) { foreach(next); sleep_until(rate_limit); }` 。"
                 },
                 "on_error": {
                     "title": "On Error Property",
@@ -3842,8 +4194,8 @@
                 "anchor": {
                     "title": "Anchor Property",
                     "description": "锚点名称。可选，默认空。",
-                    "$ref": "#/$defs/jsonStringOrList",
-                    "markdownDescription": "*string* | *list<string, >*\n\n锚点名称。可选，默认空。\n\n当节点执行成功后，会将该锚点名设置为当前节点。多个节点可设置同一个锚点名，后执行的会覆盖先执行的。\n\n在 `next` 或 `on_error` 中可通过 `[Anchor]` 属性引用该锚点，运行时会解析为最后设置该锚点的节点。\n\n详见文档中的「节点属性」章节。"
+                    "$ref": "#/$defs/jsonStringOrListOrMap",
+                    "markdownDescription": "*string* | *list<string, >* | *object*\n\n锚点名称。可选，默认空。\n\n当节点执行成功后，会将该锚点名设置为对应的节点。多个节点可设置同一个锚点名，后执行的会覆盖先执行的。\n\n支持三种格式：\n- 字符串：`\"anchor\": \"MyAnchor\"` - 将锚点设置为当前节点\n- 字符串数组：`\"anchor\": [\"A\", \"B\"]` - 将多个锚点都设置为当前节点\n- 对象：`\"anchor\": {\"A\": \"TargetNode\", \"B\": \"\"}` - 将锚点 A 设置为 TargetNode，清除锚点 B（空字符串表示清除该锚点）\n\n在 `next` 或 `on_error` 中可通过 `[Anchor]` 属性引用该锚点，运行时会解析为最后设置该锚点的节点。\n\n详见文档中的「节点属性」章节。"
                 },
                 "inverse": {
                     "title": "Inverse Property",
