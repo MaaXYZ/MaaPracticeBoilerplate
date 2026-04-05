@@ -29,9 +29,7 @@
     git clone https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
     ```
 
-2. 下载 MaaFramework 的 [Release 包](https://github.com/MaaXYZ/MaaFramework/releases)，解压到 `deps` 文件夹中。
-
-3. 下载 OCR（文字识别）资源文件 [ppocr_v5.zip](https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v5/ppocr_v5-zh_cn.zip) 解压到 `assets/resource/model/ocr/` 目录下，确保路径如下：
+2. 下载 OCR（文字识别）资源文件 [ppocr_v5.zip](https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v5/ppocr_v5-zh_cn.zip) 解压到 `assets/resource/model/ocr/` 目录下，确保路径如下：
 
     ```tree
     assets/resource/model/ocr/
@@ -42,9 +40,9 @@
 
     _请注意，您不需要将 OCR 资源文件上传到您的代码仓库中。`.gitignore` 已经忽略了 `assets/resource/model/ocr/` 目录，且 GitHub workflow 在发布版本时会自动配置这些资源文件。_
 
-4. 进行开发工作。请参考 [MaaFramework 相关文档](https://maafw.com/docs/1.1-QuickStarted)，并按您的业务需求修改 `assets` 目录下的 `resource` 资源文件以及 `interface.json` 文件，然后使用 [开发工具](https://maafw.com/docs/1.1-QuickStarted#%E8%B0%83%E8%AF%95)进行调试。
+3. 进行开发工作。请参考 [MaaFramework 相关文档](https://maafw.com/docs/1.1-QuickStarted)，并按您的业务需求修改 `assets` 目录下的 `resource` 资源文件以及 `interface.json` 文件，然后使用 [开发工具](https://maafw.com/docs/1.1-QuickStarted#%E8%B0%83%E8%AF%95)进行调试。
 
-5. 完成开发后，上传您的代码并发布版本。
+4. 完成开发后，上传您的代码并发布版本。
 
     ```bash
     # 配置 git 信息（仅第一次需要，后续不用再配置）
@@ -57,7 +55,7 @@
     git push origin HEAD -u
     ```
 
-6. 发布您的版本
+5. 发布您的版本
 
     需要**先**修改仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
@@ -67,7 +65,7 @@
     git push origin v1.0.0
     ```
 
-7. 更多操作，请参考 [个性化配置](./docs/zh_cn/个性化配置.md)（可选）
+6. 更多操作，请参考 [个性化配置](./docs/zh_cn/个性化配置.md)（可选）
 
 ## 生态共建
 
