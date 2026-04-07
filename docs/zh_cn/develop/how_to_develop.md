@@ -10,7 +10,7 @@
 
 1. 使用基于 git 作为版本控制工具
   如果你还不会用，可以先在[菜鸟教程](https://www.runoob.com/git/git-tutorial.html)进行学习。
-2. 使用 Github 托管代码并使用相关 [CI/CD 工作流](https://docs.github.com/zh/actions)
+2. 使用 GitHub 托管代码并使用相关 [CI/CD 工作流](https://docs.github.com/zh/actions)
   项目中附带了一些基于 [github action](https://docs.github.com/zh/actions) 的 CI/CD 工作流配置，你可以通过他们来自动进行测试以及将项目打包和发布。
 3. 了解本框架中一些常见的术语
   MaaFramework 手册中的[术语解释](https://maafw.com/docs/1.2-ExplanationOfTerms)章节介绍了一些基本的专有术语。
