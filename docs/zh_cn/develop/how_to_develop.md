@@ -34,8 +34,8 @@
     └── rec.onnx
     ```
 
-    >[WARNING]
-    >请注意，您不需要将 OCR 资源文件上传到您的代码仓库中。`.gitignore` 已经忽略了 `assets/resource/model/ocr/` 目录，且 GitHub workflow 在发布版本时会自动配置这些资源文件。
+    > [!WARNING]
+    > 请注意，您不需要将 OCR 资源文件上传到您的代码仓库中。`.gitignore` 已经忽略了 `assets/resource/model/ocr/` 目录，且 GitHub workflow 在发布版本时会自动配置这些资源文件。
 
     _如果希望使用其他版本的模型，可以参考[这个说明](https://github.com/MaaXYZ/MaaCommonAssets/tree/main/OCR)。_
 
