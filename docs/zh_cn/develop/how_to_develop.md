@@ -11,7 +11,7 @@
 1. 使用基于 git 作为版本控制工具
   如果你还不会用，可以先在[菜鸟教程](https://www.runoob.com/git/git-tutorial.html)进行学习。
 2. 使用 GitHub 托管代码并使用相关 [CI/CD 工作流](https://docs.github.com/zh/actions)
-  项目中附带了一些基于 [github action](https://docs.github.com/zh/actions) 的 CI/CD 工作流配置，你可以通过他们来自动进行测试以及将项目打包和发布。
+  项目中附带了一些基于 [GitHub Actions](https://docs.github.com/zh/actions) 的 CI/CD 工作流配置，你可以通过他们来自动进行测试以及将项目打包和发布。
 3. 了解本框架中一些常见的术语
   MaaFramework 手册中的[术语解释](https://maafw.com/docs/1.2-ExplanationOfTerms)章节介绍了一些基本的专有术语。
 
@@ -56,9 +56,9 @@
 
 5. 发布您的版本
 
-    本模板附带 GitHub Actions 工作流的配置文件，CI 检测到 tag 会自动将 [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia) 与你的项目一同打包和发版。
+    本模板附带 GitHub Actionss 工作流的配置文件，CI 检测到 tag 会自动将 [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia) 与你的项目一同打包和发版。
 
-    >[INFO]
+    > [!NOTE]
     >第一次操作前，需要**先**修改 Github 仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
     ```bash
