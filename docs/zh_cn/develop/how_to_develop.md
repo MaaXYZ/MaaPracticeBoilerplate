@@ -1,12 +1,12 @@
 # 如何开发
 
-在开始开发前请先阅读 MaaFramework 开发文档的[快速开始](https://maafw.com/docs/1.1-QuickStarted)章节，以便你对MaaFramework 有一个基本的了解。
+在开始开发前请先阅读 MaaFramework 开发文档的[快速开始](https://maafw.com/docs/1.1-QuickStarted)章节，以便你对 MaaFramework 有一个基本的了解。
 
 ~~同时，我们还提供了一个[🎞️ 视频教程](https://www.bilibili.com/video/BV1yr421E7MW)以供参考。~~ 视频中使用的版本较老，一切问题须以最新版文档为准。
 
 ## 开发前提
 
-使用本教程进行开发则默认你遵守MaaFramework衍生项目的相关开发规范以及共识，所有的讨论也将基于以下前提。
+使用本教程进行开发则默认你遵守 MaaFramework 衍生项目的相关开发规范以及共识，所有的讨论也将基于以下前提。
 
 1. 使用基于 git 作为版本控制工具  
   如果你还不会用，可以先在[菜鸟教程](https://www.runoob.com/git/git-tutorial.html)进行学习。
