@@ -1,18 +1,18 @@
 # 如何开发
 
-在开始开发前请先阅读 MaaFramework 开发文档的[快速开始](https://maafw.com/docs/1.1-QuickStarted)章节，以便你对MaaFramework 有一个基本的了解。
+在开始开发前请先阅读 MaaFramework 开发文档的[快速开始](https://maafw.com/docs/1.1-QuickStarted)章节，以便你对 MaaFramework 有一个基本的了解。
 
 ~~同时，我们还提供了一个[🎞️ 视频教程](https://www.bilibili.com/video/BV1yr421E7MW)以供参考。~~ 视频中使用的版本较老，一切问题须以最新版文档为准。
 
 ## 开发前提
 
-使用本教程进行开发则默认你遵守MaaFramework衍生项目的相关开发规范以及共识，所有的讨论也将基于以下前提。
+使用本教程进行开发则默认你遵守 MaaFramework 衍生项目的相关开发规范以及共识，所有的讨论也将基于以下前提。
 
-1. 使用基于 git 作为版本控制工具
+1. 使用基于 git 作为版本控制工具  
   如果你还不会用，可以先在[菜鸟教程](https://www.runoob.com/git/git-tutorial.html)进行学习。
-2. 使用 GitHub 托管代码并使用相关 [CI/CD 工作流](https://docs.github.com/zh/actions)
+2. 使用 GitHub 托管代码并使用相关 [CI/CD 工作流](https://docs.github.com/zh/actions)  
   项目中附带了一些基于 [GitHub Actions](https://docs.github.com/zh/actions) 的 CI/CD 工作流配置，你可以通过他们来自动进行测试以及将项目打包和发布。
-3. 了解本框架中一些常见的术语
+3. 了解本框架中一些常见的术语  
   MaaFramework 手册中的[术语解释](https://maafw.com/docs/1.2-ExplanationOfTerms)章节介绍了一些基本的专有术语。
 
 ## 开发步骤
@@ -34,7 +34,7 @@
     └── rec.onnx
     ```
 
-    > [!WARNING]
+    > [!WARNING]  
     > 请注意，您不需要将 OCR 资源文件上传到您的代码仓库中。`.gitignore` 已经忽略了 `assets/resource/model/ocr/` 目录，且 GitHub workflow 在发布版本时会自动配置这些资源文件。
 
     _如果希望使用其他版本的模型，可以参考[这个说明](https://github.com/MaaXYZ/MaaCommonAssets/tree/main/OCR)。_
@@ -58,7 +58,7 @@
 
     本模板附带 GitHub Actionss 工作流的配置文件，CI 检测到 tag 会自动将 [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia) 与你的项目一同打包和发版。
 
-    > [!NOTE]
+    > [!NOTE]  
     > 第一次操作前，需要**先**修改 Github 仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
     ```bash
