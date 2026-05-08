@@ -1,5 +1,12 @@
 name: install
 
+env:
+  # 版本控制：
+  # - 设置 VERSION 为空字符串时，下载 latest 版本
+  # - 设置 VERSION 为具体版本号时（如 v1.2.3），下载指定版本
+  MAAFW_VERSION: ""
+  MFAA_VERSION: ""
+
 on:
   push:
     tags:
@@ -79,7 +86,8 @@ jobs:
         with:
           repository: MaaXYZ/MaaFramework
           fileName: "MAA-${{ matrix.os }}-${{ matrix.arch }}*"
-          latest: true
+          latest: ${{ env.MAAFW_VERSION == '' }}
+          tag: ${{ env.MAAFW_VERSION }}
           out-file-path: "deps"
           extract: true
 
@@ -90,7 +98,8 @@ jobs:
         with:
           repository: SweetSmellFox/MFAAvalonia
           fileName: "MFAAvalonia-*-${{ (matrix.os == 'win' && 'win') || (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
-          latest: true
+          latest: ${{ env.MFAA_VERSION == '' }}
+          tag: ${{ env.MFAA_VERSION }}
           out-file-path: "MFA"
           extract: true
 
