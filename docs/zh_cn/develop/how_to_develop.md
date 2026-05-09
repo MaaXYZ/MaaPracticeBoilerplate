@@ -59,7 +59,7 @@
 
 5. 发布您的版本
 
-    本模板附带 GitHub Actionss 工作流的配置文件，CI 检测到 tag 会自动将 [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia) 与你的项目一同打包和发版。
+    本模板附带 GitHub Actions 工作流的配置文件，CI 检测到 tag 会自动将 [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia) 与你的项目一同打包和发版。
 
     > [!NOTE]  
     > 第一次操作前，需要**先**修改 Github 仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
