@@ -25,6 +25,9 @@
     git clone https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
     ```
 
+    > [!NOTE]  
+    > 请注意，项目的路径中不能有中文。
+
 2. 下载 OCR（文字识别）资源文件 [ppocr_v5.zip](https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v5/ppocr_v5-zh_cn.zip) 解压到 `assets/resource/model/ocr/` 目录下，确保路径如下：
 
     ```tree
@@ -34,7 +37,7 @@
     └── rec.onnx
     ```
 
-    > [!WARNING]
+    > [!WARNING]  
     > 请注意，您不需要将 OCR 资源文件上传到您的代码仓库中。`.gitignore` 已经忽略了 `assets/resource/model/ocr/` 目录，且 GitHub workflow 在发布版本时会自动配置这些资源文件。
 
     _如果希望使用其他版本的模型，可以参考[这个说明](https://github.com/MaaXYZ/MaaCommonAssets/tree/main/OCR)。_
@@ -56,10 +59,10 @@
 
 5. 发布您的版本
 
-    本模板附带 GitHub Actionss 工作流的配置文件，CI 检测到 tag 会自动将 [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia) 与你的项目一同打包和发版。
+    本模板附带 GitHub Actions 工作流的配置文件，CI 检测到 tag 会自动将 [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia) 与你的项目一同打包和发版。
 
-    > [!NOTE]
-    > 第一次操作前，需要**先**修改 Github 仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
+    > [!NOTE]  
+    > 第一次操作前，需要**先**修改 GitHub 仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
     ```bash
     # CI 检测到 tag 会自动进行发版
