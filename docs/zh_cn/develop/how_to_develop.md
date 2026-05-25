@@ -62,7 +62,7 @@
     > 第一次操作前，需要**先**修改 Github 仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
     ```bash
-    # 对当前commit打上tag然后push到远程仓库
+    # 给最近的 commit 打上 v1.0.0 标签并推送
     git tag v1.0.0
     git push origin v1.0.0
     ```
