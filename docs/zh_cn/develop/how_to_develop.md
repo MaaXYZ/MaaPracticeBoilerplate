@@ -8,7 +8,7 @@
 
 使用本教程进行开发则默认你遵守 MaaFramework 衍生项目的相关开发规范以及共识，所有的讨论也将基于以下前提。
 
-0. 拥有一个 Github 账号并且已经登陆  
+0. 拥有一个 GitHub 账号并且已经登录  
 1. 使用基于 git 作为版本控制工具  
   如果你还不会用，可以先在[菜鸟教程](https://www.runoob.com/git/git-tutorial.html)进行学习。  
 2. 使用 GitHub 托管代码并使用相关 [CI/CD 工作流](https://docs.github.com/zh/actions)  
