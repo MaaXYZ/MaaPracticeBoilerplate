@@ -19,7 +19,7 @@
 ## 开发步骤
 
 0. 使用[本项目主页](https://github.com/MaaXYZ/MaaPracticeBoilerplate)右上角 `Use this template` - `Create a new repository` 来基于本模板创建您自己的项目。  
-    _（如果你找不到这个按钮，说明你没有登陆 Github 账号）_
+    _（如果你找不到这个按钮，说明你没有登录 GitHub 账号）_
 
 1. 克隆你的项目（地址请修改为您基于本模板创建的新项目地址）。
 
