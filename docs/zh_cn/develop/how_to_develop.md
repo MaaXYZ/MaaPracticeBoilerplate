@@ -24,7 +24,7 @@
 1. 克隆你的项目（地址请修改为您基于本模板创建的新项目地址）。
 
     ```bash
-    git clone https://github.com/MaaXYZ/MaaPracticeBoilerplate.git
+    git clone https://github.com/<你的用户名>/<你的项目名称>.git
     ```
 
 2. 下载 OCR（文字识别）资源文件 [ppocr_v5.zip](https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v5/ppocr_v5-zh_cn.zip) 解压到 `assets/resource/model/ocr/` 目录下，确保路径如下：
