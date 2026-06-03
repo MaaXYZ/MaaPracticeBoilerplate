@@ -56,6 +56,8 @@
     git push origin HEAD -u
     ```
 
+    如果您准备通过 PR 与他人协作，建议参考 [PR 规范](./pull_request_guidelines.md) 补充变更摘要、验证记录和必要的日志或截图。
+
 5. 发布您的版本
 
     本模板附带 GitHub Actions 工作流的[配置文件](/.github/workflows/install.yml)，CI 检测到 tag 会自动进行打包和发布。默认的配置文件会将 [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia) 与你的项目一同打包和发版。
