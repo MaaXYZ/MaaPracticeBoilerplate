@@ -11,7 +11,7 @@ on:
         default: ''
         required: false
   release:
-    types: [edited]
+    types: [edited] # [edited, published]
 
 jobs:
   mirrorchyan:
