@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
-  <img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" width="256" height="256" />
+  <img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/v1/icons/maa-logo_512x512.png" width="256" height="256" />
 </p>
 
 <div align="center">
@@ -16,7 +16,11 @@
 
 ## 即刻开始
 
+**请不要直接克隆本仓库！你应该通过模板创建自己的项目！**  
+
 请阅读[如何开发](./docs/zh_cn/develop/how_to_develop.md)
+
+向本模板仓库提交改动前，请阅读 [PR 规范](./docs/zh_cn/develop/pull_request_guidelines.md)。
 
 ## 生态共建
 
