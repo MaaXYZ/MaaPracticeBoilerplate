@@ -96,7 +96,6 @@
         - json
 ```
 
-
 配置文件 `.prettierrc.yaml` , [具体规则](https://prettier.io/docs/en/options.html)
 
 这里用到了 "prettier-plugin-multiline-arrays" 插件，目的是保持多行数组，不需要则可删去。

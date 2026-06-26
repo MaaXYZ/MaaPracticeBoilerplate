@@ -1,6 +1,6 @@
 # 如何开发
 
-在开始开发前请先阅读 MaaFramework 开发文档的[快速开始](https://maafw.com/docs/1.1-QuickStarted)章节，以便你对MaaFramework 有一个基本的了解。
+在开始开发前请先阅读 MaaFramework 开发文档的[快速开始](https://maafw.com/docs/1.1-QuickStarted)章节，以便你对 MaaFramework 有一个基本的了解。
 
 ~~同时，我们还提供了一个[🎞️ 视频教程](https://www.bilibili.com/video/BV1yr421E7MW)以供参考。~~ 视频中使用的版本较老，一切问题须以最新版文档为准。
 
@@ -36,7 +36,7 @@
     └── rec.onnx
     ```
 
-    > [!WARNING]
+    > [!WARNING]  
     > 请注意，您不需要将 OCR 资源文件上传到您的代码仓库中。`.gitignore` 已经忽略了 `assets/resource/model/ocr/` 目录，且 GitHub workflow 在发布版本时会自动配置这些资源文件。
 
     _如果希望使用其他版本的模型，可以参考[这个说明](https://github.com/MaaXYZ/MaaCommonAssets/tree/main/OCR)。_
@@ -62,7 +62,7 @@
 
     本模板附带 GitHub Actions 工作流的[配置文件](/.github/workflows/install.yml)，CI 检测到 tag 会自动进行打包和发布。默认的配置文件会将 [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia) 与你的项目一同打包和发版。
 
-    > [!NOTE]
+    > [!NOTE] 
     > 第一次操作前，需要**先**修改 GitHub 仓库设置 `Settings` - `Actions` - `General` - `Read and write permissions` - `Save`
 
     ```bash
