@@ -43,7 +43,7 @@
 
 3. 进行开发工作。请参考 [MaaFramework 相关文档](https://maafw.com/docs/1.1-QuickStarted)，并按您的业务需求修改 `assets` 目录下的 `resource` 资源文件以及 `interface.json` 文件，然后使用 [开发工具](https://maafw.com/docs/1.1-QuickStarted#%E8%B0%83%E8%AF%95) 进行调试。
 
-    通常来说，您**不需要**为您的项目单独开发一套 UI ，本模板附带了自动配置 _通用 UI_ 的持续集成（CI），使用方法请参考后续步骤。
+    通常来说，您**不需要**为您的项目单独开发一套 UI，本模板附带了自动配置 _通用 UI_ 的持续集成（CI），使用方法请参考后续步骤。
 
 4. 完成开发后，上传您的代码并发布版本。
 
@@ -75,7 +75,7 @@
 
     执行上述命令后，CI 会自动进行打包和发布，你可以在项目仓库的 `Actions` 页面中看到工作流的执行情况。如果一切顺利，运行结束后你可以在项目仓库的 `Releases` 页面中看到新发布的版本。更多有关 GitHub Actions 的内容请参考 [GitHub Actions 文档](https://docs.github.com/zh/actions)。
 
-    _如果想要使用别的 [通用 UI](https://github.com/MaaXYZ/MaaFramework/#%E9%80%9A%E7%94%A8-ui) ，请自行修改工作流的 [配置文件](/.github/workflows/install.yml)。_
+    _如果想要使用别的 [通用 UI](https://github.com/MaaXYZ/MaaFramework/#%E9%80%9A%E7%94%A8-ui)，请自行修改工作流的 [配置文件](/.github/workflows/install.yml)。_
 
 ## 常见问题
 

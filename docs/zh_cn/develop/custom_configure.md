@@ -3,7 +3,7 @@
 ## 目录
 
 - [问题模板](#问题模板)
-- [VSCode插件](#vscode-plugins)
+- [VSCode 插件](#vscode-plugins)
 - [代码格式化工具](#代码格式化工具)
 
 ## 问题模板
@@ -36,18 +36,18 @@
 
 ### 利用 Pre-commit Hooks 自动进行代码格式化
 
-1. 确保你的电脑上有 Python 与 Node 环境
+1. 确保你的电脑上有 Python 与 Node 环境。
 
-2. 在项目根目录下执行以下命令
+2. 在项目根目录下执行以下命令。
 
     ```bash
     pip install pre-commit
     pre-commit install
     ```
 
-如果pip安装后依然无法运行pre-commit，请确认pip安装地址已被添加到PATH
+如果 pip 安装后依然无法运行 pre-commit，请确认 pip 安装地址已被添加到 PATH。
 
-接下来，每次提交时都将会自动运行格式化工具，来确保你的代码格式符合规范
+接下来，每次提交时都将会自动运行格式化工具，来确保你的代码格式符合规范。
 
 ### 格式化配置
 
@@ -80,7 +80,7 @@
       args: ["--fix", "--config", "docs/.markdownlint.yaml", "#**/node_modules"]
 ```
 
-配置文件 `docs/.markdownlint.yaml` , [具体规则](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md)
+配置文件 `docs/.markdownlint.yaml`，[具体规则](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md)。
 
 #### Prettier
 
@@ -96,8 +96,7 @@
         - json
 ```
 
-
-配置文件 `.prettierrc.yaml` , [具体规则](https://prettier.io/docs/en/options.html)
+配置文件 `.prettierrc.yaml`，[具体规则](https://prettier.io/docs/en/options.html)。
 
 这里用到了 "prettier-plugin-multiline-arrays" 插件，目的是保持多行数组，不需要则可删去。
-关联文件 `package.json` 以及 `package-lock.json` 。
+关联文件 `package.json` 以及 `package-lock.json`。
