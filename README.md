@@ -18,7 +18,7 @@
 
 **请不要直接克隆本仓库！你应该通过模板创建自己的项目！**  
 
-请阅读[如何开发](./docs/zh_cn/develop/how_to_develop.md)
+请阅读 [如何开发](./docs/zh_cn/develop/how_to_develop.md)。
 
 向本模板仓库提交改动前，请阅读 [PR 规范](./docs/zh_cn/develop/pull_request_guidelines.md)。
 
@@ -32,7 +32,7 @@ MAA 正计划建设为一类项目，而非舟的单一软件。
 
 ## 常见问题
 
-请阅读[常见问题](./docs/zh_cn/develop/faq.md)
+请阅读 [常见问题](./docs/zh_cn/develop/faq.md)。
 
 ## 鸣谢
 
