@@ -27,21 +27,21 @@
     git clone https://github.com/<你的用户名>/<你的项目名称>.git
     ```
 
-2. 下载 OCR（文字识别）资源文件 [ppocr_v6.zip](https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v6/ppocr_v6-small.zip) 解压到 `assets/resource/model/ocr/` 目录下，确保路径如下：
+2. 下载 OCR（文字识别）资源文件 [ppocr_v6.zip](https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v6/ppocr_v6-small.zip) 解压到 `resource/base/model/ocr/` 目录下，确保路径如下：
 
     ```tree
-    assets/resource/model/ocr/
+    resource/base/model/ocr/
     ├── det.onnx
     ├── keys.txt
     └── rec.onnx
     ```
 
     > [!WARNING]
-    > 请注意，您不需要将 OCR 资源文件上传到您的代码仓库中。`.gitignore` 已经忽略了 `assets/resource/model/ocr/` 目录，且 GitHub workflow 在发布版本时会自动配置这些资源文件。
+    > 请注意，您不需要将 OCR 资源文件上传到您的代码仓库中。`resource/base/model/.gitignore` 已经忽略了 `ocr/` 目录，且 GitHub workflow 在发布版本时会自动配置这些资源文件。
 
     _如果希望使用其他版本的模型，可以参考 [这个说明](https://github.com/MaaXYZ/MaaCommonAssets/tree/main/OCR)。_
 
-3. 进行开发工作。请参考 [MaaFramework 相关文档](https://maafw.com/docs/1.1-QuickStarted)，并按您的业务需求修改 `assets` 目录下的 `resource` 资源文件以及 `interface.json` 文件，然后使用 [开发工具](https://maafw.com/docs/1.1-QuickStarted#%E8%B0%83%E8%AF%95) 进行调试。
+3. 进行开发工作。请参考 [MaaFramework 相关文档](https://maafw.com/docs/1.1-QuickStarted)，并按您的业务需求修改根目录 `interface.json`、`tasks/` 中的任务配置以及 `resource/base/` 中的资源文件，然后使用 [开发工具](https://maafw.com/docs/1.1-QuickStarted#%E8%B0%83%E8%AF%95) 进行调试。
 
     通常来说，您**不需要**为您的项目单独开发一套 UI，本模板附带了自动配置 _通用 UI_ 的持续集成（CI），使用方法请参考后续步骤。
 

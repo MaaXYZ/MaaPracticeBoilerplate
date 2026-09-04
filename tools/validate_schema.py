@@ -221,8 +221,8 @@ def main():
         "--resource-dirs",
         type=str,
         nargs="+",
-        default=["assets/resource"],
-        help="Directories containing resource files to validate (default: assets/resource)",
+        default=["resource/base"],
+        help="Directories containing resource files to validate (default: resource/base)",
     )
     parser.add_argument(
         "--exclude-dirs",
@@ -235,15 +235,15 @@ def main():
         "--interface-files",
         type=str,
         nargs="+",
-        default=["assets/interface.json"],
-        help="Path to interface.json files (default: assets/interface.json)",
+        default=["interface.json"],
+        help="Path to interface.json files (default: interface.json)",
     )
     parser.add_argument(
         "--task-dirs",
         type=str,
         nargs="*",
-        default=[],
-        help="Directories containing task files to validate against interface_import.schema.json (default: none)",
+        default=["tasks"],
+        help="Directories containing task files to validate against interface_import.schema.json (default: tasks)",
     )
 
     args = parser.parse_args()

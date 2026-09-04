@@ -1,7 +1,11 @@
 {
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
   "devDependencies": {
     "@nekosu/maa-tools": "1.0.23",
     "@types/node": "^25.5.2",
-    "prettier-plugin-multiline-arrays": "^3.0.6"
+    "prettier-plugin-multiline-arrays": "^3.0.6",
+    "typescript": "^5.9.3"
   }
 }

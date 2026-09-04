@@ -20,6 +20,16 @@
 
 请阅读 [如何开发](./docs/zh_cn/develop/how_to_develop.md)。
 
+## 项目布局
+
+```text
+├── interface.json
+├── tasks/
+├── resource/base/
+├── agent/
+└── tools/schema/
+```
+
 向本模板仓库提交改动前，请阅读 [PR 规范](./docs/zh_cn/develop/pull_request_guidelines.md)。
 
 ## 生态共建

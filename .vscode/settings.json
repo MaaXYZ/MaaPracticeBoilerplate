@@ -2,29 +2,37 @@
     "json.schemas": [
         {
             "fileMatch": [
-                "/assets/resource/**/*.json",
+                "/resource/**/*.json",
                 "/install/resource/**/*.json",
-                "/assets/resource/**/*.jsonc",
+                "/resource/**/*.jsonc",
                 "/install/resource/**/*.jsonc"
             ],
-            "url": "/deps/tools/pipeline.schema.json"
+            "url": "/tools/schema/pipeline.schema.json"
         },
         {
             "fileMatch": [
-                "/assets/interface.json",
+                "/interface.json",
                 "/install/interface.json"
             ],
-            "url": "/deps/tools/interface.schema.json"
+            "url": "/tools/schema/interface.schema.json"
+        },
+        {
+            "fileMatch": [
+                "/tasks/**/*.json",
+                "/install/tasks/**/*.json"
+            ],
+            "url": "/tools/schema/interface_import.schema.json"
         },
         {
             "fileMatch": [
                 "/install/config/maa_pi_config.json"
             ],
-            "url": "/deps/tools/interface_config.schema.json"
+            "url": "/tools/schema/interface_config.schema.json"
         }
     ],
     "files.associations": {
-        "**/assets/**/*.json": "jsonc"
+        "/interface.json": "jsonc",
+        "/resource/**/*.json": "jsonc"
     },
     "[json][jsonc]": {
         "editor.formatOnSave": true,

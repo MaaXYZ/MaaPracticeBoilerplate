@@ -15,15 +15,21 @@ on:
       - "**"
     paths:
       - ".github/workflows/install.yml"
-      - "assets/**"
-      - "**.py"
+      - "interface.json"
+      - "tasks/**"
+      - "resource/**"
+      - "agent/**"
+      - "tools/**"
   pull_request:
     branches:
       - "**"
     paths:
       - ".github/workflows/install.yml"
-      - "assets/**"
-      - "**.py"
+      - "interface.json"
+      - "tasks/**"
+      - "resource/**"
+      - "agent/**"
+      - "tools/**"
   workflow_dispatch:
 
 jobs:
@@ -176,17 +182,17 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          path: assets
+          path: release-assets
 
       - run: |
-          cd assets
+          cd release-assets
           for f in *; do
             (cd $f && zip -r ../$f-${{ needs.meta.outputs.tag }}.zip .)
           done
           
       - uses: softprops/action-gh-release@v2
         with:
-          files: assets/*
+          files: release-assets/*
           tag_name: ${{ needs.meta.outputs.tag }}
           body: ${{ needs.changelog.outputs.release_body }}
           draft: false
