@@ -79,8 +79,8 @@
             "pipeline_override": {}
         },
         {
-            "name": "带Custom的任务",
-            "entry": "MyTask4"
+            "name": "自定义识别与动作示例",
+            "entry": "FindSmallestNumber"
         }
     ],
     "option": {

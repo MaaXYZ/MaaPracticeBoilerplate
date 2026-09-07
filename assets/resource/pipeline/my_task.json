@@ -2,11 +2,25 @@
     "MyTask1": {},
     "MyTask2": {},
     "MyTask3": {},
-    "MyTask4": {
+    "FindSmallestNumber": {
         "recognition": "Custom",
-        "custom_recognition": "my_reco_222",
+        "custom_recognition": "find_smallest_number",
+        "custom_recognition_param": {
+            "candidate_rois": [
+                [100, 100, 200, 100],
+                [300, 100, 200, 100]
+            ]
+        },
         "action": "Custom",
-        "custom_action": "my_action_111"
+        "custom_action": "click_target",
+        "custom_action_param": {
+            "target": [10, 20]
+        }
     },
-    "OcrTask": {}
+    "RecognizeNumber": {
+        "recognition": "OCR"
+    },
+    "OcrTask": {
+        "recognition": "OCR"
+    }
 }

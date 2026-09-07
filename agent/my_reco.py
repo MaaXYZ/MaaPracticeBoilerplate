@@ -1,37 +1,64 @@
+import json
+
 from maa.agent.agent_server import AgentServer
 from maa.custom_recognition import CustomRecognition
 from maa.context import Context
 
 
-@AgentServer.custom_recognition("my_reco_222")
-class MyRecongition(CustomRecognition):
-
+@AgentServer.custom_recognition("find_smallest_number")
+class SmallestNumberRecognition(CustomRecognition):
     def analyze(
         self,
         context: Context,
         argv: CustomRecognition.AnalyzeArg,
     ) -> CustomRecognition.AnalyzeResult:
 
-        reco_detail = context.run_recognition(
-            "MyCustomOCR",
-            argv.image,
-            pipeline_override={"MyCustomOCR": {"roi": [100, 100, 200, 300]}},
-        )
+        param = json.loads(argv.custom_recognition_param or "{}") or {}
+        rois = param.get("candidate_rois")
+        if not isinstance(rois, list) or not rois:
+            return CustomRecognition.AnalyzeResult(
+                box=None,
+                detail={"error": "candidate_rois 不能为空"},
+            )
 
-        # context is a reference, will override the pipeline for whole task
-        context.override_pipeline({"MyCustomOCR": {"roi": [1, 1, 114, 514]}})
-        # context.run_recognition ...
+        res = []
 
-        # make a new context to override the pipeline, only for itself
-        new_context = context.clone()
-        new_context.override_pipeline({"MyCustomOCR": {"roi": [100, 200, 300, 400]}})
-        reco_detail = new_context.run_recognition("MyCustomOCR", argv.image)
+        for roi in rois:
+            # 找到 pipeline 中名为 "RecognizeNumber" 的节点，并执行它的识别逻辑
+            reco_detail = context.run_recognition(
+                "RecognizeNumber",
+                argv.image,  # 使用当前获取到的图片
+                pipeline_override={  # 临时覆盖节点参数
+                    "RecognizeNumber": {  # 要覆盖的节点的名称
+                        "roi": roi,  # 覆盖识别区域
+                        "only_rec": True,  # 不进行文本检测，直接进行识别
+                    }
+                },
+            )
 
-        click_job = context.tasker.controller.post_click(10, 20)
-        click_job.wait()
+            if reco_detail is None or not reco_detail.hit:
+                print(f"无法读取到内容 {roi}")
+                res.append(None)
+                continue
 
-        context.override_next(argv.node_name, ["TaskA", "TaskB"])
+            text = str(reco_detail.best_result.text)
+            try:
+                number = float(text)
+            except ValueError:
+                print(f"{text} 不是数字!")
+                res.append(None)
+                continue
 
+            res.append(number)
+
+        if not res or None in res:
+            return CustomRecognition.AnalyzeResult(
+                box=None,
+                detail={"error": "存在无法读取到内容"},
+            )
+
+        min_index = res.index(min(res))
         return CustomRecognition.AnalyzeResult(
-            box=(0, 0, 100, 100), detail="Hello World!"
+            box=rois[min_index],
+            detail={"smallest_number": res[min_index]},
         )
