@@ -15,7 +15,7 @@ on:
 
 jobs:
   mirrorchyan:
-    runs-on: macos-latest
+    runs-on: ubuntu-24.04
     # Mirror酱为第三方分发服务，新项目默认关闭
     # 若有需要请联系 Mirror酱 开通，直接自行开启是无法使用的
     # https://mirrorchyan.com/
